@@ -29,11 +29,11 @@ int faktorijel(int x)
 }
 int main()
 {
-	int a = 2, b = 4,x;
+	int a = 2, b = 4,y;
 	printf("Unesi broj:");
-	scanf("%d", &x);
+	scanf("%d", &y);
 	int p = faktorijel(x);
-	printf("Faktorijel broja %d je %d!", x, p);
+	printf("Faktorijel broja %d je %d!", y, p);
 	printf("a="); scanf_s("%d", &a);
 	printf("b="); scanf_s("%d", &b);
 	printf("2`4= %d", Stepen(a, b));
