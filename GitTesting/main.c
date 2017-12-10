@@ -34,7 +34,7 @@ int sumOfDigits(int x)
 	while (x)
 	{
 		s += x % 10;
-		x /= 10:
+		x /= 10;
 	}
 	return s;
 }
