@@ -3,7 +3,7 @@
 
 int Stepen(int x, int y)
 {
-	int r = 3;
+	int r = 1;
 	for (int i = 0; i < y; i++)
 		r *= x;
 	return r;
@@ -14,6 +14,11 @@ void f()
 	printf("\nOvo nije normalno!\n");
 }
 
+void g(const int x, const int y)
+{
+	return x * y;
+}
+
 int main()
 {
 	int a = 2, b = 4;
@@ -21,6 +26,8 @@ int main()
 	printf("b="); scanf_s("%d", &b);
 	printf("2`4= %d", Stepen(a, b));
 	f();
+	int c = g(5, 6);
+	cout << c;
 	getchar();
 	getchar();
 	return 0;
