@@ -3,7 +3,7 @@
 
 int Stepen(int x, int y)
 {
-	int r = 2;
+	int r = 3;
 	for (int i = 0; i < y; i++)
 		r *= x;
 	return r;
