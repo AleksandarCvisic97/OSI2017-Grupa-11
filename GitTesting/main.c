@@ -9,12 +9,18 @@ int Stepen(int x, int y)
 	return r;
 }
 
+void f()
+{
+	printf("\nOvo nije normalno!\n");
+}
+
 int main()
 {
 	int a = 2, b = 4;
 	printf("a="); scanf_s("%d", &a);
 	printf("b="); scanf_s("%d", &b);
 	printf("2`4= %d", Stepen(a, b));
+	f();
 	getchar();
 	getchar();
 	return 0;
