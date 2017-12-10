@@ -39,7 +39,7 @@ int main()
 	printf("2`4= %d", Stepen(a, b));
 	f();
 	int c = g(5, 6);
-	cout << c;
+	prinf("%d", c);
 	getchar();
 	getchar();
 	return 0;
