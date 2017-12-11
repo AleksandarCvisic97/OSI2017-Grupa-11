@@ -8,7 +8,7 @@ void Admin::write()
 	{
 		users << code << " ";
 		User::write(users);
-		users.close(); //test
+		users.close();
 	}
 	else std::cout << "Greska pri otvaranju datoteke: 'users.txt'";
 }
