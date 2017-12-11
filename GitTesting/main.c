@@ -38,6 +38,12 @@ int sumOfDigits(int x)
 	}
 	return s;
 }
+
+void funkCIA()
+{
+	printf("\ntest, proba, test\n");
+}
+
 int main()
 {
 	int a = 2, b = 4,y;
@@ -52,6 +58,7 @@ int main()
 	f();
 	int c = g(5, 6);
 	printf("%d", c);
+	funkCIA();
 	getchar();
 	getchar();
 	return 0;
