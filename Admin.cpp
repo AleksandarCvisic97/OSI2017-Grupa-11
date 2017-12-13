@@ -1,9 +1,8 @@
 #include "Admin.h"
 #include <iostream>
 
-void Admin::write()
+void Admin::write(std::ofstream& users)
 {
-	std::ofstream users;
 	if (users.is_open())
 	{
 		users << code << " ";

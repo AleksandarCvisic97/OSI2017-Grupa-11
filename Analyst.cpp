@@ -1,9 +1,8 @@
 #include "Analyst.h"
 #include <iostream>
 
-void Analyst::write()
+void Analyst::write(std::ofstream& users)
 {
-	std::ofstream users;
 	if (users.is_open())
 	{
 		users << code << " ";

@@ -5,6 +5,6 @@ class Admin : public User
 {
 	const int code = 0;
 public:
-	void write();
+	void write(std::ofstream&);
 };
 

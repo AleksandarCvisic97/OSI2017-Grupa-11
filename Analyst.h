@@ -4,6 +4,6 @@ class Analyst : public User
 {
 	const int code = 1;
 public:
-	void write();
+	void write(std::ofstream&);
 };
 

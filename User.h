@@ -9,6 +9,6 @@ protected:
 	int pin;
 public:
 	User(std::string, std::string, std::string, int);
-	void write(std::ofstream);
+	void write(std::ofstream&);
 };
 
