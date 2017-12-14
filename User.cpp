@@ -9,11 +9,11 @@ void User::write()
 	users.open("Users.txt", std::ios::app); //prava putanja: ...\programdata\Users.txt
 	if (users.is_open())
 	{
-		users << name << " " << surname << " " << username << " " << pin << status << std::endl;
+		users << name << " " << surname << " " << username << " " << pin << " " << status << std::endl;
 		write_code(users);
 		users.close();
 	}
 	else
-		std::cout << "Greska pri otvaranju datoteke: 'users.txt'";
+		std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
 }
 
