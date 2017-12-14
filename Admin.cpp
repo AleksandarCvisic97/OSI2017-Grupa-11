@@ -1,13 +1,9 @@
 #include "Admin.h"
 #include <iostream>
 
-void Admin::write(std::ofstream& users)
+void Admin::write_code(std::ofstream &stream)
 {
-	if (users.is_open())
-	{
-		users << code << " ";
-		User::write(users);
-		users.close();
-	}
-	else std::cout << "Greska pri otvaranju datoteke: 'users.txt'";
+	stream << code;
 }
+
+Admin::Admin(const std::string name, const std::string surname, const std::string username, const int pin, const int status, const int code) : User(name, surname, username, pin, status), code(code) {}
