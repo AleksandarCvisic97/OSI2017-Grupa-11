@@ -9,8 +9,9 @@ void User::write()
 	users.open("Users.txt", std::ios::app); //prava putanja: ...\programdata\Users.txt
 	if (users.is_open())
 	{
-		users << name << " " << surname << " " << username << " " << pin << " " << status << std::endl;
+		users << name << " " << surname << " " << username << " " << pin << " " << status << " ";
 		write_code(users);
+		users << std::endl;
 		users.close();
 	}
 	else
