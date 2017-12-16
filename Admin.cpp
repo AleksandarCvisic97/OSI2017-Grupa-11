@@ -1,5 +1,5 @@
-#include "admin.h"
-#include "analyst.h"
+#include "Admin.h"
+#include "Analyst.h"
 #include <iostream>
 
 

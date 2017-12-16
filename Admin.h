@@ -1,5 +1,5 @@
 #pragma once
-#include "user.h"
+#include "User.h"
 
 class Admin : public User
 {
