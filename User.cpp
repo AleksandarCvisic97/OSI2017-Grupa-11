@@ -1,7 +1,7 @@
-#include "User.h"
+#include "user.h"
 #include <iostream>
 
-User::User(const std::string name, const std::string surname, const std::string username, const int pin, const int status) : name(name), surname(surname), username(username), pin(pin), status(status) {}
+User::User(const std::string name, const std::string surname, const std::string username, const std::string pin, const int status) : name(name), surname(surname), username(username), pin(pin), status(status) {}
 
 void User::write()
 {

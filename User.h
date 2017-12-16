@@ -5,11 +5,12 @@
 class User
 {
 protected:
-	std::string name, surname, username;
-	int pin, status; //status 1 == activated, 0 == deactivated
+	std::string name, surname, username, pin;
+	int status; //status 1 == activated, 0 == deactivated
 	virtual void write_code(std::ofstream&) = 0;
 public:
-	User(const std::string, const std::string, const std::string, const int, const int);
+	User(const std::string, const std::string, const std::string, const std::string, const int);
 	void write();
 };
+
 
