@@ -59,6 +59,29 @@ void User::LogIn()
 		}
 		users.close();
 	}
-	else 
+	else
 		std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
+}
+
+void User::PlaceRequest()
+{   std::string name,surname,username,pin;
+    std::cout<<"Name:";
+    std::cin>>name;
+    std::cout<<"Surname:";
+    std::cin>>surname;
+    std::cout<<"Username:";
+    std::cin>>username;
+    std::cout<<"PIN (4 cifre!):";
+    std::cin>>pin;
+    int status=0; //nalog je samo smjesten u datoteku,neaktivan
+    std::ofstream file;
+    file.open ("Requests.txt",std::ios::app);
+    if(file.is_open())
+    {
+        file <<name<<" "<<surname<<" "<<username<<" "<<pin<<" "<<status<<" ";
+        write_code(file);
+        file<<std::endl;
+        file.close();
+    }
+    else std::cout<<"Neuspjesno otvaranje datoteke o korisnicima!";
 }

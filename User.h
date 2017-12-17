@@ -12,6 +12,6 @@ public:
 	User(const std::string, const std::string, const std::string, const std::string, const int);
 	void write();
 	void LogIn();
-};
-
+	void PlaceRequest();
+}
 
