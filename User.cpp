@@ -71,7 +71,7 @@ void User::PlaceRequest()
     std::cin>>surname;
     std::cout<<"Username:";
     std::cin>>username;
-    std::cout<<"PIN (4 cifre!):";
+    std::cout<<"PIN(4 cifre!):";
     std::cin>>pin;
     int status=0; //nalog je samo smjesten u datoteku,neaktivan
     std::ofstream file;
