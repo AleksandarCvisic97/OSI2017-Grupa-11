@@ -22,9 +22,13 @@ void Admin::ApproveRegRequest()
 		while (requests >> ime >> prezime >> krime >> pas >> stat >> kod)
 		{
 			std::cout << ime << " " << prezime << " " << krime << " " << pas << " " << stat << " " << kod << " " << std::endl;
-			std::cout << "Odobri zahtjev: DA - pritisni 1, NE - pritisni 0" << std::endl;
-			std::cin >> c;
-
+			do
+			{
+				std::cout << "Odobri zahtjev: DA - pritisni 1, NE - pritisni 0" << std::endl;
+				std::cin >> c;
+				if (c < 0 || c>1)
+					std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+			} while (c < 0 || c>1);
 			if (c)
 			{
 				if (!kod)
@@ -46,7 +50,6 @@ void Admin::ApproveRegRequest()
 	else
 		std::cout << "Greska pri otvaranju datoteke 'Requests.txt'" << std::endl;
 	requests.close();
-
 	requests.open("Requests.txt", std::ios::out);
 	requests.close();
 }

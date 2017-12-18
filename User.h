@@ -13,5 +13,4 @@ public:
 	void write();
 	void LogIn();
 	void PlaceRequest();
-}
-
+};

@@ -22,66 +22,91 @@ void User::LogIn()
 {
 	std::string LogName, LogPIN;
 	std::string name, surname, username, PIN;
-	int status, code;
+	int status, code, p;
 	std::fstream users;
-	users.open("Users.txt", std::ios::in);
-	std::cout << "Unesite Vase korisnicko ime i lozinku!" << std::endl;
-	std::cout << "Korisnicko ime:"; std::cin >> LogName;
-	std::cout << std::endl << "Lozinka:"; std::cin >> LogPIN;
-	const char * A = LogName.c_str();
-	const char * B = LogPIN.c_str();
-	if (users.is_open())
+	do
 	{
-		while (users >> name >> surname >> username >> PIN >> status >> code)
+		users.open("Users.txt", std::ios::in);
+		std::cout << "Unesite Vase korisnicko ime i lozinku!" << std::endl;
+		std::cout << "Korisnicko ime:"; std::cin >> LogName;
+		std::cout << std::endl << "Lozinka:"; std::cin >> LogPIN;
+		const char * A = LogName.c_str();
+		const char * B = LogPIN.c_str();
+		if (users.is_open())
 		{
-			const char * C = username.c_str();
-			const char * D = PIN.c_str();
-			if (std::strcmp(A, C) == 0)
+			while (users >> name >> surname >> username >> PIN >> status >> code)
 			{
-				if (std::strcmp(B, D) == 0)
+				const char * C = username.c_str();
+				const char * D = PIN.c_str();
+				if (std::strcmp(A, C) == 0)
 				{
-					std::cout << "Uspjesno ste se prijavili na sistem";
-					//pozivanje "admin menu" funkcije ako se prijavio admin ili "analyst menu" ako je analiticar
-				}
-				else
-				{
-					std::cout << "Unesena lozinka nije validna" << std::endl << "Molim pokusajte ponovo" << std::endl;
-					users.close();
-					return;
+					if (std::strcmp(B, D) == 0)
+					{
+						std::cout << "Uspjesno ste se prijavili na sistem" << std::endl;
+						//pozivanje "admin menu" funkcije ako se prijavio admin ili "analyst menu" ako je analiticar
+						return;
+					}
 				}
 			}
-			else
+			users.close();
+			std::cout << "Unijeli ste pogresno korisnicko ime ili pogresnu lozinku!" << std::endl;
+			do
 			{
-				std::cout << "Uneseno korisnicko ime nije validno" << std::endl << "Molim pokusajte ponovo" << std::endl;
-				users.close();
-				return;
-			}
+				std::cout << "Ponovna prijava (1)" << std::endl << "Napusti program (0)" << std::endl << "Vas izbor: ";
+				std::cin >> p;
+				if (p > 1 || p < 0)
+					std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+			} while (p > 1 || p < 0);
 		}
-		users.close();
-	}
-	else
-		std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
+		else
+			std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
+	} while (p);
 }
 
 void User::PlaceRequest()
 {   std::string name,surname,username,pin;
-    std::cout<<"Name:";
+	int code,p,k=1;
+	while (k)
+	{
+		std::cout << "Registruj se kao Administrator (unesi 1) ili Analiticar (unesi 2) ?" << std::endl;
+		std::cout << "Vas izbor: "; std::cin >> p;
+		if (p == 1)
+		{
+			code = 0;
+			k = 0;
+		}
+		else if (p == 2)
+		{
+			code = 1;
+			k = 0;
+		}
+		else
+			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+	}
+    std::cout<<"Ime:";
     std::cin>>name;
-    std::cout<<"Surname:";
+    std::cout<<"Prezime:";
     std::cin>>surname;
-    std::cout<<"Username:";
+    std::cout<<"Korisnicko ime:";
     std::cin>>username;
-    std::cout<<"PIN(4 cifre!):";
-    std::cin>>pin;
+	k = 1;
+	while (k)
+	{
+		std::cout << "PIN (4 cifre!):";
+		std::cin >> pin;
+		if (pin.length() != 4)
+			std::cout << "Pin se mora sastojati od 4 cifre! Pokusaj ponovo." << std::endl;
+		else
+			k = 0;
+	}
     int status=0; //nalog je samo smjesten u datoteku,neaktivan
     std::ofstream file;
     file.open ("Requests.txt",std::ios::app);
     if(file.is_open())
     {
-        file <<name<<" "<<surname<<" "<<username<<" "<<pin<<" "<<status<<" ";
-        write_code(file);
-        file<<std::endl;
+		file << name << " " << surname << " " << username << " " << pin << " " << status << " " << code << std::endl;
         file.close();
     }
-    else std::cout<<"Neuspjesno otvaranje datoteke o korisnicima!";
+	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
+	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspijesna ukoliko je zahtjev odobren." << std::endl;
 }
