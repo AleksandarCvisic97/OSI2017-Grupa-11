@@ -110,3 +110,37 @@ void User::PlaceRequest()
 	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
 	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspijesna ukoliko je zahtjev odobren." << std::endl;
 }
+
+int registername(std::string new_username)
+{
+
+	std::string username, name, surname, pin;
+	int confirmation, status, code;
+
+	std::fstream in;
+	in.open("Users.txt", std::ios::in);
+	if (in.is_open())
+	{
+
+
+		while (in >> name >> surname >> username >> pin >> status >> code)
+		{
+
+			confirmation = new_username.compare(username);
+
+			if (confirmation == 0)
+			{
+				in.close();
+				return confirmation;
+			}
+		}
+		confirmation = 1;
+		in.close();
+		return confirmation;
+
+	}
+	else
+		std::cout << "Neuspjesno otvaranje datoteke 'Users.txt'!" << std::endl;
+	return 0;
+}
+
