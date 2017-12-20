@@ -140,8 +140,10 @@ int User::registername(std::string new_username)
 
 	}
 	else
+    {
 		std::cout << "Neuspjesno otvaranje datoteke 'Users.txt'!" << std::endl;
 	return 0;
+    }
 }
 
 void User::changeStatus()
