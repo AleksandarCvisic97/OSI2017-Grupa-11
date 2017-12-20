@@ -9,6 +9,3 @@ public:
 	Admin(const std::string, const std::string, const std::string, const std::string, const int);
 	void ApproveRegRequest();
 };
-
-
-

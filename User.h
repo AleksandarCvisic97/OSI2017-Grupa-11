@@ -13,4 +13,6 @@ public:
 	void write();
 	void LogIn();
 	void PlaceRequest();
+	void changeStatus();
+	int registername(std::string new_username);
 };

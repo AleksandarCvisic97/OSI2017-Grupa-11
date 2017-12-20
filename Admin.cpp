@@ -34,14 +34,20 @@ void Admin::ApproveRegRequest()
 				if (!kod)
 				{
 					Admin ad(ime, prezime, krime, pas, stat);
-					//if(provjeraNaloga) ---> kreiraj
-					ad.write();
+					if (registername(krime))
+					{
+						ad.changeStatus();
+						ad.write();
+					}
 				}
 				else
 				{
 					Analyst an(ime, prezime, krime, pas, stat);
-					//if(provjeraNaloga) ---> kreiraj
-					an.write();
+					if (registername(krime))
+					{
+						an.changeStatus();
+						an.write();
+					}
 				}
 			}
 		}

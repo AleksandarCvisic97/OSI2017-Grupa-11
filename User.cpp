@@ -111,7 +111,7 @@ void User::PlaceRequest()
 	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspijesna ukoliko je zahtjev odobren." << std::endl;
 }
 
-int registername(std::string new_username)
+int User::registername(std::string new_username)
 {
 
 	std::string username, name, surname, pin;
@@ -144,3 +144,10 @@ int registername(std::string new_username)
 	return 0;
 }
 
+void User::changeStatus()
+{
+	if (status)
+		status = 0;
+	else
+		status = 1;
+}
