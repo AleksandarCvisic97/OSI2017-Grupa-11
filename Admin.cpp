@@ -3,12 +3,22 @@
 #include <iostream>
 
 
-void Admin::write_code(std::ofstream &stream)
+void Admin::write_code(std::ofstream &stream) const
+{
+	stream << code;
+}
+
+void Admin::print_code(std::ostream &stream) const
 {
 	stream << code;
 }
 
 Admin::Admin(const std::string name, const std::string surname, const std::string username, const std::string pin, const int status) : User(name, surname, username, pin, status) {}
+
+int Admin::get_code() const
+{
+	return code;
+}
 
 void Admin::ApproveRegRequest()
 {

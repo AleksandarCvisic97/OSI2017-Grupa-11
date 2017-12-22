@@ -153,3 +153,11 @@ void User::changeStatus()
 	else
 		status = 1;
 }
+
+std::ostream & operator<<(std::ostream &stream, const User &u)
+{
+	stream << u.name << " " << u.surname << " " << u.username << " " << u.status << " ";
+	u.print_code(stream);
+	stream << std::endl;
+	return stream;
+}

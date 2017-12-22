@@ -1,42 +1,22 @@
 #include <iostream>
 #include "Admin.h"
+#include "Menu.h"
 
 int main()
 {
-	int p = 0, k = 0;
+	int p = 0;
 	Admin fake("Petar", "Petrovic", "pero", "1234", 1);
-	std::cout << "==========Dobro dosli u SCA2017!==========" << std::endl << std::endl;
-	while (!k)
+	do
 	{
-		std::cout << "(1) Prijava na sistem" << std::endl << "(2) Registruj se" << std::endl << "(3) Napusti program" << std::endl << "(4) Simulacija odobravanja naloga (admin-meni)" << std::endl;
-		std::cout << "Vas izbor: "; std::cin >> p;
-		if (p == 1)
+		print_main_menu();
+		std::cin >> p;
+		switch (p)
 		{
-			k = 1;
-			fake.LogIn();
+		case 1: fake.LogIn(); if (fake.get_code() == 0) print_admin_menu(); else print_analyst_menu(); break;
+		case 2: fake.PlaceRequest(); break;
+		case 3: std::cout << "Dovidjenja!" << std::endl; return 0; break;
+		case 4: print_request_menu(); fake.ApproveRegRequest(); break;
+		default: std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl; break;
 		}
-		else if (p == 2)
-		{
-			k = 1;
-			fake.PlaceRequest();
-		}
-		else if (p == 3)
-		{
-			std::cout << "Dovidjenja!" << std::endl;
-			return 0;
-		}
-		else if (p == 4)
-		{
-			k = 1;
-			std::cout << "Prikazuje se opcija za odobravanje naloga iz menija za administratora. (test)" << std::endl << std::endl;
-			fake.ApproveRegRequest();
-			std::cout << "Test verzija odobravanja zavrsena." << std::endl;
-		}
-		else
-			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
-	}
-	std::cout << "Dovidjenja!" << std::endl;
-	getchar();
-	getchar();
-	return 0;
+	} while (true);
 }
