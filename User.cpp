@@ -108,7 +108,7 @@ void User::PlaceRequest()
         file.close();
     }
 	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
-	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspijesna ukoliko je zahtjev odobren." << std::endl;
+	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl;
 }
 
 int User::registername(std::string new_username)
