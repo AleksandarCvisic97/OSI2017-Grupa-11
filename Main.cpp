@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Admin.h"
 #include "Menu.h"
+#include "Bill.h"
 
 int main()
 {
