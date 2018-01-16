@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
+typedef std::vector<std::string> stringvec;
 
 class Bill
 {
@@ -12,11 +15,13 @@ class Bill
 	};
 	Item *array; // niz artikala sa racuna
 	int n; // broj artikala na racunu
+	std::string path;
 public:
-	Bill(const int = 0);
+	Bill(const std::string = "");
 	~Bill();
 
 	void read_bill();  // TODO: Definisati funkciju koja cita racun iz datoteke
 	void write_bill(); // TODO: Definisati funkciju koja pise racun u datoteku
 };
 
+void read_directory(const std::string&, stringvec&);

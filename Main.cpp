@@ -7,6 +7,22 @@ int main()
 {
 	char c;
 	Admin fake("Petar", "Petrovic", "pero", "1234", 1);
+	
+
+	stringvec str;
+
+	read_directory(".", str);
+
+	int n = str.size(); // broj racuna
+
+	Bill *b = new Bill[n]; // niz racuna
+	int i = 0;
+	for (std::string temp : str) {
+		Bill localTemp(temp);
+		b[i] = localTemp;
+		i++;
+	}
+
 	do
 	{
 		print_main_menu();
