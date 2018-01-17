@@ -1,9 +1,12 @@
 #include "User.h"
+#include "Admin.h"
+#include "Analyst.h"
+#include "Menu.h"
 #include <iostream>
 
 User::User(const std::string name, const std::string surname, const std::string username, const std::string pin, const int status) : name(name), surname(surname), username(username), pin(pin), status(status) {}
 
-void User::write()
+void User::write() // Funkcija za upis u datoteku
 {
 	std::ofstream users;
 	users.open("Users.txt", std::ios::app); //prava putanja: ...\programdata\Users.txt
@@ -18,7 +21,7 @@ void User::write()
 		std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
 }
 
-void User::LogIn()
+void User::LogIn() // Nedostaje provjera da li je nalog aktivan
 {
 	std::string LogName, LogPIN;
 	std::string name, surname, username, PIN;
@@ -43,7 +46,16 @@ void User::LogIn()
 					if (std::strcmp(B, D) == 0)
 					{
 						std::cout << "Uspjesno ste se prijavili na sistem" << std::endl;
-						//pozivanje "admin menu" funkcije ako se prijavio admin ili "analyst menu" ako je analiticar
+						if (code == 0)
+						{
+							Admin person(name, surname, username, PIN, 1);
+							person.AdminMenuOptions();
+						}
+						else
+						{
+							Analyst person(name, surname, username, PIN, 1);
+							person.AnalystMenuOptions();
+						}
 						return;
 					}
 				}
@@ -63,7 +75,7 @@ void User::LogIn()
 	} while (p);
 }
 
-void User::PlaceRequest()
+void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
 {   std::string name,surname,username,pin;
 	int code,p,k=1;
 	while (k)
@@ -162,7 +174,7 @@ std::ostream & operator<<(std::ostream &stream, const User &u)
 	return stream;
 }
 
-void User::deactivate() //funkcija ne radi u "fake admin" rezimu
+void User::Deactivate() // Nedostaje zastita za default admina
 {
 	std::string name, surname, username, PIN;
 	int status, code, p;

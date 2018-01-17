@@ -6,7 +6,7 @@
 int main()
 {
 	char c;
-	Admin fake("Petar", "Petrovic", "pero", "1234", 1);
+	Admin fake("Default", "Admin", "sca", "1234", 1); // Nalog administratora za projektante sistema
 	
 
 	stringvec str;
@@ -29,11 +29,13 @@ int main()
 		std::cin >> c;
 		switch (c)
 		{
-		case '1': fake.LogIn(); if (fake.get_code() == 0) print_admin_menu(); else print_analyst_menu(); break;
+		case '1': fake.LogIn(); break;
 		case '2': fake.PlaceRequest(); break;
-		case '3': std::cout << "Dovidjenja!" << std::endl; return 0; break;
-		case '4': print_request_menu(); fake.ApproveRegRequest(); break;
+		case '3': fake.Deactivate(); break;
+		case '4': std::cout << "Dovidjenja!" << std::endl; return 0; break;
 		default: std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl; break;
 		}
 	} while (true);
+
+	return 0;
 }

@@ -17,6 +17,6 @@ public:
 	void LogIn();
 	void PlaceRequest();
 	void changeStatus();
-	void deactivate();
+	void Deactivate();
 	int registername(std::string new_username);
 };

@@ -10,4 +10,7 @@ public:
 	Admin(const std::string, const std::string, const std::string, const std::string, const int);
 	int get_code() const override final;
 	void ApproveRegRequest();
+	int AdminMenuOptions();
+	void AddAccount();
+	void DeleteAccount();
 };

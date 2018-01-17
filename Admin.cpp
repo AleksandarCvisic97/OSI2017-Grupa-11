@@ -1,5 +1,6 @@
 #include "Admin.h"
 #include "Analyst.h"
+#include "Menu.h"
 #include <iostream>
 
 
@@ -20,7 +21,7 @@ int Admin::get_code() const
 	return code;
 }
 
-void Admin::ApproveRegRequest()
+void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 {
 	int c;
 	std::string ime, prezime, krime, pas;
@@ -68,4 +69,33 @@ void Admin::ApproveRegRequest()
 	requests.close();
 	requests.open("Requests.txt", std::ios::out);
 	requests.close();
+}
+
+void Admin::AddAccount() // Funkcija treba da rucno doda nalog
+{
+	
+}
+
+void Admin::DeleteAccount() // Funkcija treba da rucno deaktivira nalog
+{
+	
+}
+
+int Admin::AdminMenuOptions() // Meni za administratora
+{
+	char c;
+	do
+	{
+		print_admin_menu();
+		std::cin >> c;
+		switch (c)
+		{
+		case '1': ApproveRegRequest(); break;
+		case '2': AddAccount(); break;
+		case '3': DeleteAccount(); break;
+		// Slucaj 4 za primjenu valute sistema nije jos spreman za koristenje
+		case '5': std::cout << "Dovidjenja!" << std::endl; return 0; break;
+		default: std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl; break;
+		}
+	} while (true);
 }

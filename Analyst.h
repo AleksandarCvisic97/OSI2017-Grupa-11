@@ -9,5 +9,6 @@ class Analyst : public User
 public:
 	Analyst(const std::string, const std::string, const std::string, const std::string, const int);
 	int get_code() const override final;
+	int AnalystMenuOptions();
 };
 
