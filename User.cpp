@@ -21,7 +21,7 @@ void User::write() // Funkcija za upis u datoteku
 		std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
 }
 
-void User::LogIn() // Nedostaje provjera da li je nalog aktivan
+void User::LogIn() // Funkcija za prijavu na sistem
 {
 	std::string LogName, LogPIN;
 	std::string name, surname, username, PIN;
@@ -45,18 +45,26 @@ void User::LogIn() // Nedostaje provjera da li je nalog aktivan
 				{
 					if (std::strcmp(B, D) == 0)
 					{
-						std::cout << "Uspjesno ste se prijavili na sistem" << std::endl;
-						if (code == 0)
+						if (status == 1)
 						{
-							Admin person(name, surname, username, PIN, 1);
-							person.AdminMenuOptions();
+							std::cout << "Uspjesno ste se prijavili na sistem" << std::endl;
+							if (code == 0)
+							{
+								Admin person(name, surname, username, PIN, 1);
+								person.AdminMenuOptions();
+							}
+							else
+							{
+								Analyst person(name, surname, username, PIN, 1);
+								person.AnalystMenuOptions();
+							}
+							return;
 						}
 						else
 						{
-							Analyst person(name, surname, username, PIN, 1);
-							person.AnalystMenuOptions();
+							std::cout << "Vas nalog je deaktiviran! Prijava nije moguca." << std::endl << std::endl;
+							return;
 						}
-						return;
 					}
 				}
 			}
@@ -120,7 +128,7 @@ void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
         file.close();
     }
 	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
-	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl;
+	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl << std::endl;
 }
 
 int User::registername(std::string new_username)
