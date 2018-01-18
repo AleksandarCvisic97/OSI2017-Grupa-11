@@ -139,7 +139,7 @@ void Admin::DeleteAccount() // Funkcija treba da rucno deaktivira nalog
 
 			if (n == c)
 				niz = new struct temp[c *= 2];
-			if ((korisnik.krime).compare(korIme) == 0)
+			if (((korisnik.krime).compare(korIme) == 0) && (korisnik.krime.compare("sca")))
 			{
 				korisnik.stat = 0;
 				j = 1;
@@ -165,9 +165,10 @@ void Admin::DeleteAccount() // Funkcija treba da rucno deaktivira nalog
 				users << niz[j].ime << " " << niz[j].prezime << " " << niz[j].krime << " " << niz[j].pas << " " << niz[j].stat << " " << niz[j].kod << std::endl;
 			users.close();
 		}
+		std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
+
 	}
 
-	std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
 
 	delete[] niz;
 }

@@ -1,5 +1,6 @@
 #include "Bill.h"
 #include <iostream>
+#define NOMINMAX
 #include <windows.h>
 
 
