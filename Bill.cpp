@@ -32,6 +32,15 @@ Bill & Bill::operator=(const Bill &other)
 	return *this;
 }
 
+bool Bill::check_bill()
+{
+    double sum=0;
+    for(int i=0;i<n;i++)
+    sum+=array[i].amount*array[i].price;
+    if(sum==total)
+        return true;
+    return false;
+}
 
 void read_directory(const std::string &name, stringvec &v)
 {

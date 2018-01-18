@@ -34,6 +34,7 @@ public:
 	Bill& operator=(const Bill&);
 	void read_bill();  // TODO: Definisati funkciju koja cita racun iz datoteke
 	void write_bill(); // TODO: Definisati funkciju koja pise racun u datoteku
+	bool check_bill();
 };
 
 void read_directory(const std::string&, stringvec&);
