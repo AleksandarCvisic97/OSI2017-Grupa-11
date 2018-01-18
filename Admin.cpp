@@ -73,12 +73,103 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 
 void Admin::AddAccount() // Funkcija treba da rucno doda nalog
 {
+	std::string ime, prezime, krime, pas;
+	int stat, kod;
+
+	std::cout << "Unesite podatke o korisniku " << std::endl;
+	std::cout << " Ime: "; std::cin >> ime;
+	std::cout << " Prezime: "; std::cin >> prezime;
+	do
+	{
+		std::cout << " Korisnicko ime: ";
+		std::cin >> krime;
+
+		if (!registername(krime))
+		{
+			std::cout << "Korisnicko ime je zauzeto! Pokusajte ponovo." << std::endl;
+		}
+	} while (!registername(krime));
 	
+	std::cout << " PIN(4 cifre): "; std::cin >> pas;
+	
+	do
+	{
+		std::cout << " Dodaj kao Administratora (pritisni 0) ili kao Analiticara (pritisni 1): ";
+		std::cin >> kod;
+
+		if (kod < 0 || kod > 1)
+		{
+			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+		}
+	} while (kod < 0 || kod>1);
+
+	stat = 1;
+
+	if (kod == 0)
+	{
+		Admin ad(ime, prezime, krime, pas, stat);
+		ad.write();
+	}
+	else
+	{
+		Analyst an(ime, prezime, krime, pas, stat);
+		an.write();
+	}
 }
 
 void Admin::DeleteAccount() // Funkcija treba da rucno deaktivira nalog
 {
+	struct temp
+	{
+		std::string ime, prezime, krime, pas;
+		int stat, kod;
+	};
+	int n = 0, j = 0, c = 10;
+	struct temp *niz, korisnik;
+	niz = new struct temp[c];
+	std::string korIme;
+	std::cout << "Unesite korisnicko ime naloga koji zelite deaktivirati: " << std::endl;
+	std::cin >> korIme;
+	std::fstream users;
+	users.open("Users.txt", std::ios::in);
+	if (users.is_open())
+	{
+		while (users >> korisnik.ime >> korisnik.prezime >> korisnik.krime >> korisnik.pas >> korisnik.stat >> korisnik.kod)
+		{
+
+			if (n == c)
+				niz = new struct temp[c *= 2];
+			if ((korisnik.krime).compare(korIme) == 0)
+			{
+				korisnik.stat = 0;
+				j = 1;
+			}
+			niz[n++] = korisnik;
+		}
+		users.close();
+	}
+	else
+		std::cout << "Greska pri otvaranju datoteke 'Users.txt'" << std::endl;
 	
+	if (j == 0)
+		std::cout << "Deaktiviranje naloga nije uspjelo, jer ne postoji korisnik sa korisnickim imenom '" << korIme << "'" << std::endl;
+	
+	else
+	{
+		
+		users.open("Users.txt", std::ios::out);
+
+		if (users.is_open())
+		{
+			for (j = 0; j < n; j++)
+				users << niz[j].ime << " " << niz[j].prezime << " " << niz[j].krime << " " << niz[j].pas << " " << niz[j].stat << " " << niz[j].kod << std::endl;
+			users.close();
+		}
+	}
+
+	std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
+
+	delete[] niz;
 }
 
 int Admin::AdminMenuOptions() // Meni za administratora
