@@ -97,9 +97,6 @@ void read_bill(std::ifstream& bill, int format)
                 std::getline(bill,line);
         }
 
-
-
-
  //provjerava preostali broj linija
          while(std::getline(bill,line))
          lineNumber++;
@@ -256,7 +253,6 @@ for(int i=0;i<productNumber;i++)
             std::getline(bill,line);
            std::stringstream ss(line);
             std::getline(ss,name,'=');            //naziv
-
 
             for(int i=0;i<5;i++)
             {
