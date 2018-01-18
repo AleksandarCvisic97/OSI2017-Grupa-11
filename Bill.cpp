@@ -2,11 +2,22 @@
 #include <iostream>
 #include <windows.h>
 
+
 Bill::Item::Item(const std::string name, const double amount, const double price) : name(name), amount(amount), price(price) { }
 
 Bill::Bill(const std::string path) : path(path)
 {
 	array = nullptr;
+	file.open(path);
+	std::size_t pos = path.find("format");
+	if (pos == std::string::npos) // Provjera da li fajl ima u sebi 'format'
+		file.close();
+	else
+	{
+		char temp;
+		temp = path.at(pos + 6);
+		format = atoi(&temp);
+	}
 }
 
 Bill::~Bill()
@@ -14,6 +25,13 @@ Bill::~Bill()
 	delete[] array;
 	n = 0;
 }
+
+Bill & Bill::operator=(const Bill &other)
+{
+	this->path = other.path;
+	return *this;
+}
+
 
 void read_directory(const std::string &name, stringvec &v)
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "User.h"
+#include "Bill.h"
 
 class Analyst : public User
 {
@@ -10,5 +11,6 @@ public:
 	Analyst(const std::string, const std::string, const std::string, const std::string, const int);
 	int get_code() const override final;
 	int AnalystMenuOptions();
+	void read_bills(); // funkcija za otvaranje racuna
 };
 

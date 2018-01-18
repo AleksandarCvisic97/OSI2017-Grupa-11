@@ -12,6 +12,23 @@ void Analyst::print_code(std::ostream &stream) const
 	stream << code;
 }
 
+void Analyst::read_bills()
+{
+	stringvec str;
+
+	read_directory(".", str);
+
+	int n = str.size(); // broj racuna
+
+	Bill *b = new Bill[n]; // niz racuna
+	int i = 0;
+	for (std::string temp : str) {
+		Bill localTemp(temp);
+		b[i] = localTemp;
+		i++;
+	}
+}
+
 Analyst::Analyst(const std::string name, const std::string surname, const std::string username, const std::string pin, const int status) : User(name, surname, username, pin, status) {}
 
 int Analyst::get_code() const
