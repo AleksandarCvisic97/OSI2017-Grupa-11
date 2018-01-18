@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
+#include <algorithm>
 
 typedef std::vector<std::string> stringvec;
 
@@ -38,3 +40,5 @@ public:
 };
 
 void read_directory(const std::string&, stringvec&);
+void read_bill(std::ifstream& , int );
+std::string removeSpaces(std::string);
