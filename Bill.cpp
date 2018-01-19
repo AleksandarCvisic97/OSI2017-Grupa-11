@@ -34,20 +34,20 @@ Bill & Bill::operator=(const Bill &other)
     return *this;
 }
 
-bool Bill::check_bill(std::ifstream& file, int format)
+bool check_bill(std::ifstream& file, int format)
 {
     std::string line,temp;
     double price,amount,total,total_product,total_with_pdv,pdv,sum=0; // Total-ukupna cijena ocitana sa racuna,sum-ukupna cijena koja se dobija na osnovu ocitanih podataka
     if(format==1)
     {
         for(int i=0; i<7; i++)
-            std::getline(file,line);
+            std::getline(file,line); // Prelazi se do linija sa proizvodima
         std::stringstream s(line);
-        while(line.compare('---------------------------------------')!=0)
+        while(line.compare("--------------------------------------")!=0) // Pranalazi kraj nabrajanja proizvoda
         {
             std::getline(s,temp,'-');
             std::getline(s,temp,'-');
-            temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
+            temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end()); // Brise razmake iz stringa temp
             amount=atof(temp.c_str());
             std::getline(s,temp,'-');
             temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
@@ -55,7 +55,7 @@ bool Bill::check_bill(std::ifstream& file, int format)
             std::getline(s,temp,'\n');
             temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
             total_product=atof(temp.c_str());
-            if(total_product!=amount*price);
+            if(total_product!=amount*price); // Provjera da li je ukupna cijena za taj proizvod tacna
             return false;
             sum+=total_product;
             std::getline(file,line);
@@ -63,26 +63,26 @@ bool Bill::check_bill(std::ifstream& file, int format)
 
         }
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream ss(line);
+        std::getline(ss,temp,':');
+        std::getline(ss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total=itof(temp.c_str());
-        if(sum!=total)
+        total=atof(temp.c_str());
+        if(sum!=total) // Provjerava da li je ukupna cijena svih proizvoda jednaka ukupnoj cijeni sa racuna
             return false;
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream sss(line);
+        std::getline(sss,temp,':');
+        std::getline(sss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        pdv=itof(temp.c_str());
+        pdv=atof(temp.c_str());
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream ssss(line);
+        std::getline(ssss,temp,':');
+        std::getline(ssss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total_with_pdv=itof(temp.c_str());
-        if((total+pdv)!=total_with_pdv)
+        total_with_pdv=atof(temp.c_str());
+        if((total+pdv)!=total_with_pdv) // Provjerava da li je ukupna cijena sa pdv-om tacna
             return false;
         else return true;
 
@@ -94,7 +94,7 @@ bool Bill::check_bill(std::ifstream& file, int format)
         for(int i=0; i<10; i++)
             std::getline(file,line);
         std::stringstream s(line);
-        while(line.compare('---------------------------------------')!=0)
+        while(line.compare("---------------------------------------")!=0)
         {
             std::getline(s,temp,'-');
             std::getline(s,temp,'-');
@@ -115,25 +115,25 @@ bool Bill::check_bill(std::ifstream& file, int format)
         }
         std::getline(file,line);
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream ss(line);
+        std::getline(ss,temp,':');
+        std::getline(ss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total=itof(temp.c_str());
+        total=atof(temp.c_str());
         if(sum!=total)
             return false;
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream sss(line);
+        std::getline(sss,temp,':');
+        std::getline(sss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        pdv=itof(temp.c_str());
+        pdv=atof(temp.c_str());
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream ssss(line);
+        std::getline(ssss,temp,':');
+        std::getline(ssss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total_with_pdv=itof(temp.c_str());
+        total_with_pdv=atof(temp.c_str());
         if((total+pdv)!=total_with_pdv)
             return false;
         else return true;
@@ -144,7 +144,7 @@ bool Bill::check_bill(std::ifstream& file, int format)
         for(int i=0; i<10; i++)
             std::getline(file,line);
         std::stringstream s(line);
-        while(line.compare('---------------------------------------')!=0)
+        while(line.compare("---------------------------------------")!=0)
         {
            for(int i=0;i<8;i++)
             std::getline(s,temp,'=');
@@ -164,24 +164,24 @@ bool Bill::check_bill(std::ifstream& file, int format)
         }
         std::getline(file,line);
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'P');
+        std::stringstream ss(line);
+        std::getline(ss,temp,':');
+        std::getline(ss,temp,'P');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total=itof(temp.c_str());
+        total=atof(temp.c_str());
         if(sum!=total)
             return false;
         std::getline(s,temp,':');
         std::getline(s,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        pdv=itof(temp.c_str());
+        pdv=atof(temp.c_str());
         std::getline(file,line);
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream sss(line);
+        std::getline(sss,temp,':');
+        std::getline(sss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total_with_pdv=itof(temp.c_str());
+        total_with_pdv=atof(temp.c_str());
         if((total+pdv)!=total_with_pdv)
             return false;
         else return true;
@@ -192,7 +192,7 @@ bool Bill::check_bill(std::ifstream& file, int format)
         for(int i=0; i<9; i++)
             std::getline(file,line);
         std::stringstream s(line);
-        while(line.compare('---------------------------------------')!=0)
+        while(line.compare("---------------------------------------")!=0)
         {
             std::getline(s,temp,'-');
             std::getline(s,temp,'-');
@@ -212,26 +212,26 @@ bool Bill::check_bill(std::ifstream& file, int format)
 
         }
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream ss(line);
+        std::getline(ss,temp,':');
+        std::getline(ss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total=itof(temp.c_str());
+        total=atof(temp.c_str());
         if(sum!=total)
             return false;
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream sss(line);
+        std::getline(sss,temp,':');
+        std::getline(sss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        pdv=itof(temp.c_str());
+        pdv=atof(temp.c_str());
         std::getline(file,line);
         std::getline(file,line);
-        std::stringstream s(line);
-        std::getline(s,temp,':');
-        std::getline(s,temp,'\n');
+        std::stringstream ssss(line);
+        std::getline(ssss,temp,':');
+        std::getline(ssss,temp,'\n');
         temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
-        total_with_pdv=itof(temp.c_str());
+        total_with_pdv=atof(temp.c_str());
         if((total+pdv)!=total_with_pdv)
             return false;
         else return true;
@@ -241,10 +241,10 @@ bool Bill::check_bill(std::ifstream& file, int format)
     if(format==5)
     {
             std::getline(file,line);
-        while(std::getline(file,line);)
+        while(std::getline(file,line))
         {std::stringstream s(line);
             std::getline(s,temp,',');
-            std::getline(s,temp,',');
+            std::getline(s,temp,','); // Prelazi se do brojcanih podataka
             amount=atof(temp.c_str());
             std::getline(s,temp,',');
             price=atof(temp.c_str());
