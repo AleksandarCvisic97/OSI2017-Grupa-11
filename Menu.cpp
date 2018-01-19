@@ -7,6 +7,7 @@ using std::endl;
 
 void print_main_menu()
 {
+	// Glavni meni
 	cout << "================================================" << endl;
 	cout << "                    SCA 2017                    " << endl;
 	cout << "================================================" << endl;
