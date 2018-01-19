@@ -41,22 +41,22 @@ void User::LogIn() // Funkcija za prijavu na sistem
 			{
 				const char * C = username.c_str();
 				const char * D = PIN.c_str();
-				if (std::strcmp(A, C) == 0)
+				if (std::strcmp(A, C) == 0) // Provjera korisnickog imena
 				{
-					if (std::strcmp(B, D) == 0)
+					if (std::strcmp(B, D) == 0) // Provjera lozinke
 					{
-						if (status == 1)
+						if (status == 1) // Provjera da li je nalog aktivan
 						{
 							std::cout << "Uspjesno ste se prijavili na sistem" << std::endl;
 							if (code == 0)
 							{
 								Admin person(name, surname, username, PIN, 1);
-								person.AdminMenuOptions();
+								person.AdminMenuOptions(); // Poziva meni za administratora
 							}
 							else
 							{
 								Analyst person(name, surname, username, PIN, 1);
-								person.AnalystMenuOptions();
+								person.AnalystMenuOptions(); // Poziva meni za analiticara
 							}
 							return;
 						}
@@ -131,7 +131,7 @@ void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
 	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl << std::endl;
 }
 
-int User::registername(std::string new_username)
+int User::registername(std::string new_username) // Funkcija za provjeru korisnickog imena
 {
 
 	std::string username, name, surname, pin;
@@ -166,7 +166,7 @@ int User::registername(std::string new_username)
     }
 }
 
-void User::changeStatus()
+void User::changeStatus() // Funkcija za promjenu statusa naloga
 {
 	if (status)
 		status = 0;

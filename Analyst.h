@@ -14,3 +14,6 @@ public:
 	void read_bills(); // funkcija za otvaranje racuna
 };
 
+void ShowData(int); // Funkcija za prikaz podataka
+void Month_print(int); // Pomocna funkcija za ispis
+

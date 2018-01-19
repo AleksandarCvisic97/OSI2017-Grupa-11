@@ -71,7 +71,7 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 	requests.close();
 }
 
-void Admin::AddAccount() // Funkcija treba da rucno doda nalog
+void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administratora
 {
 	std::string ime, prezime, krime, pas;
 	int stat, kod;
@@ -117,7 +117,7 @@ void Admin::AddAccount() // Funkcija treba da rucno doda nalog
 	}
 }
 
-void Admin::DeleteAccount() // Funkcija treba da rucno deaktivira nalog
+void Admin::DeleteAccount() // Funkcija za deaktivaciju naloga od strane administratora
 {
 	struct temp
 	{
