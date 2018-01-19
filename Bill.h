@@ -37,8 +37,11 @@ public:
 	void read_bill();  // TODO: Definisati funkciju koja cita racun iz datoteke
 	void write_bill(); // TODO: Definisati funkciju koja pise racun u datoteku
 	bool check_bill();
+
 };
 
+
 void read_directory(const std::string&, stringvec&);
+int check_format(std::ifstream& );
 void read_bill(std::ifstream& , int );
 std::string removeSpaces(std::string);
