@@ -2,37 +2,6 @@
 #include <iostream>
 #define NOMINMAX
 #include <windows.h>
-#include <string>
-
-
-Bill::Item::Item(const std::string name, const double amount, const double price) : name(name), amount(amount), price(price) { }
-
-Bill::Bill(const std::string path) : path(path)
-{
-    array = nullptr;
-    file.open(path);
-    std::size_t pos = path.find("format");
-    if (pos == std::string::npos) // Provjera da li fajl ima u sebi 'format'
-        file.close();
-    else
-    {
-        char temp;
-        temp = path.at(pos + 6);
-        format = atoi(&temp);
-    }
-}
-
-Bill::~Bill()
-{
-    delete[] array;
-    n = 0;
-}
-
-Bill & Bill::operator=(const Bill &other)
-{
-    this->path = other.path;
-    return *this;
-}
 
 bool check_bill(std::ifstream& file, int format)
 {
