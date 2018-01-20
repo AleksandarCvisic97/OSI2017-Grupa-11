@@ -181,3 +181,59 @@ std::ostream & operator<<(std::ostream &stream, const User &u)
 	stream << std::endl;
 	return stream;
 }
+
+void User::Deactivate() // Funkcija za deaktivaciju naloga
+{
+	struct temp // Pomocna struktura
+	{
+		std::string name, surname, username, pass;
+		int stat, kod;
+		temp(std::string a = "", std::string b = "", std::string c = "", std::string d = "", int e = 0, int f = 0) : name(a), surname(b), username(c), pass(d), stat(e), kod(f) {}
+	};
+	int n = 0, j = 0,k=1;
+	std::vector<temp> arr; // Pomocni niz
+	arr.reserve(50);
+	temp user; // Promjenljiva za prihvatanje podataka iz fajla
+	std::string korIme,pin;
+	std::cout << "Vase korisnicko ime: " << std::endl;
+	std::cin >> korIme; // Trazeni nalog za deaktivaciju
+	while (k)
+	{
+		std::cout << "Vasa lozinka:";
+		std::cin >> pin;
+		if (pin.length() != 4)
+			std::cout << "Pin se mora sastojati od 4 cifre! Pokusaj ponovo." << std::endl;
+		else
+			k = 0;
+	}
+	std::fstream users;
+	users.open("Users.txt", std::ios::in);
+	if (users.is_open())
+	{
+		while (users >> user.name >> user.surname >> user.username >> user.pass >> user.stat >> user.kod)
+		{
+			if (((user.username).compare(korIme) == 0) && ((user.username).compare("sca")!=0)&&((user.pass).compare(pin)==0)) // Ako je pronadjen nalog mijenja se status iz aktivnog u neaktivni
+			{
+				user.stat = 0;
+				j = 1;
+			}
+			arr.push_back(temp(user.name, user.surname, user.username, user.pass, user.stat, user.kod));
+		}
+		users.close();
+	}
+	else
+		std::cout << "Greska pri otvaranju datoteke 'Users.txt'" << std::endl;
+	if (j == 0)
+		std::cout << "Deaktiviranje naloga nije uspjelo, pogresno korisnicko ime ili lozinka! " << std::endl;
+	else
+	{
+		users.open("Users.txt", std::ios::out);
+		if (users.is_open()) // Upisivasnje nazad u fajl sa deaktiviranim nalogom
+		{
+			for (j = 0; j < (int)arr.size(); j++)
+				users << arr[j].name << " " << arr[j].surname << " " << arr[j].username << " " << arr[j].pass << " " << arr[j].stat << " " << arr[j].kod << std::endl;
+			users.close();
+		}
+		std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
+	}
+}

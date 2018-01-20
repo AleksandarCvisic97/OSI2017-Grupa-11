@@ -13,7 +13,8 @@ void print_main_menu()
 	cout << "================================================" << endl;
 	cout << "Prijava na sistem----------------------------(1)" << endl;
 	cout << "Registracija---------------------------------(2)" << endl;
-	cout << "Napusti program------------------------------(3)" << endl;
+	cout << "Deaktivacija naloga--------------------------(3)" << endl;
+	cout << "Napusti program------------------------------(4)" << endl;
 	cout << "================================================" << endl;
 }
 

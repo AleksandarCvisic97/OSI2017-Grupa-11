@@ -16,7 +16,8 @@ int main()
 		{
 		case '1': fake.LogIn(); break;
 		case '2': fake.PlaceRequest(); break;
-		case '3': std::cout << "Dovidjenja!" << std::endl; return 0; break;
+		case '3': fake.Deactivate(); break;
+		case '4': std::cout << "Dovidjenja!" << std::endl; return 0; break;
 		default: std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl; break;
 		}
 	}
