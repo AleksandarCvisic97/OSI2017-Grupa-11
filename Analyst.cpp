@@ -29,21 +29,25 @@ void Analyst::read_bills()
 		
 		if (temp.find(".txt") != std::string::npos || temp.find(".csv") != std::string::npos) // Provjera da li je .txt ili .csv
 		{
-
-			std::string localTemp = ".\\Bills\\";
+			
+			std::string localTemp = ".\\Bills\\"; // Dodavanje relativne putanje
 			localTemp.append(temp);
 			file.open(localTemp);
 			if (file.is_open())
 			{
 				int format = check_format(file);
+				file.seekg(0, std::ios::beg);
 				if (check_bill(file, format) == true) // Ako je racun validan
 				{									  // TODO: Prebaciti fajl u folder sa validnim racunima (Amir)
+					file.seekg(0, std::ios::beg);
 					read_bill(file, format);
 				}
 				else								  // Ako racun nije validan
 				{									  // TODO: Prebaciti fajl u folder sa nevalidnim racunima (Amir)
-					std::cout << "Nije validan racun!";
+					file.seekg(0, std::ios::beg);
+					std::cout << "Nije validan racun!" <<std::endl;
 				}
+
 				file.close();
 			}
 		}
