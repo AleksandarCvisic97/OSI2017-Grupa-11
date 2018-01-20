@@ -16,4 +16,4 @@ public:
 
 void ShowData(int); // Funkcija za prikaz podataka
 void Month_print(int); // Pomocna funkcija za ispis
-
+void move_bill(std::string, std::string); // Funckcija za premjestanje racuna

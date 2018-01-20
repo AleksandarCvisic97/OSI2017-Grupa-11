@@ -6,6 +6,7 @@
 #include <string>
 #include <stdio.h>
 #include <iomanip>
+#include <windows.h>
 
 void Analyst::write_code(std::ofstream &stream) const
 {
@@ -17,19 +18,25 @@ void Analyst::print_code(std::ostream &stream) const
 	stream << code;
 }
 
+void move_bill(std::string oldpath, std::string newpath)
+{
+	if (MoveFile(oldpath.c_str(), newpath.c_str()))
+		return;
+	else
+		std::cout << "GRESKA.";
+}
 void Analyst::read_bills()
 {
 	stringvec str;
 	read_directory("Bills.", str);
-	int n = str.size(); // broj racuna
 	std::ifstream file;
 
 	for (std::string temp : str)
 	{
-		
+
 		if (temp.find(".txt") != std::string::npos || temp.find(".csv") != std::string::npos) // Provjera da li je .txt ili .csv
 		{
-			
+
 			std::string localTemp = ".\\Bills\\"; // Dodavanje relativne putanje
 			localTemp.append(temp);
 			file.open(localTemp);
@@ -38,23 +45,26 @@ void Analyst::read_bills()
 				int format = check_format(file);
 				file.seekg(0, std::ios::beg);
 				if (check_bill(file, format) == true) // Ako je racun validan
-				{									  // TODO: Prebaciti fajl u folder sa validnim racunima (Amir)
+				{
 					file.seekg(0, std::ios::beg);
 					read_bill(file, format);
+					file.close();
+					std::string newPath = ".\\Validni\\"; // Dodavanje relativne putanje
+					newPath.append(temp);
+					move_bill(localTemp, newPath);
 				}
 				else								  // Ako racun nije validan
-				{									  // TODO: Prebaciti fajl u folder sa nevalidnim racunima (Amir)
-					file.seekg(0, std::ios::beg);
-					std::cout << "Nije validan racun!" <<std::endl;
+				{
+					file.close();
+					std::string newPath = ".\\Error\\"; // Dodavanje relativne putanje
+					newPath.append(temp);
+					move_bill(localTemp, newPath);
 				}
-
-				file.close();
 			}
 		}
-		
+
 	}
 }
-
 Analyst::Analyst(const std::string name, const std::string surname, const std::string username, const std::string pin, const int status) : User(name, surname, username, pin, status) {}
 
 int Analyst::get_code() const
