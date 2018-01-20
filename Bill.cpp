@@ -310,7 +310,6 @@ int check_format(std::ifstream& file)
             std::getline(file,line);
         std::stringstream s(line);
         std::getline(s,temp,' ');
-        temp.erase(std::remove(temp.begin(),temp.end(),' '),temp.end());
         if(temp.compare("Datum:")==0)
             return 3;
         else if(temp.compare("	Maloprodajni")==0)
@@ -330,7 +329,6 @@ int check_format(std::ifstream& file)
     return 0;
 
 }
-
 void read_bill(std::ifstream& bill, int format)
 {
 
