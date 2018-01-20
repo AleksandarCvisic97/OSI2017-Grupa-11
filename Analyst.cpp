@@ -104,7 +104,7 @@ void ShowData(int n) // Funkcija za prikaz podataka
 	int i,p=0;
 	float PDV = 1.17;
 	std::vector<Product> AllInOne; // Prvobitni niz
-	AllInOne.reserve(50);
+	AllInOne.reserve(300);
 	database.open("Storage.txt", std::ios::in);
 	if (database.is_open())
 	{
@@ -115,9 +115,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 		}
 		for (i = 0; i < (int)AllInOne.size(); ++i) // Konvertovanje polja
 		{
-			AllInOne[i].d_amount = std::stod(AllInOne[i].amount_str);
-			AllInOne[i].d_price = std::stod(AllInOne[i].price_str);
-			AllInOne[i].d_total = std::stod(AllInOne[i].total_str);
+			AllInOne[i].d_amount = std::atof(AllInOne[i].amount_str.c_str());
+			AllInOne[i].d_price = std::atof(AllInOne[i].price_str.c_str());
+			AllInOne[i].d_total = std::atof(AllInOne[i].total_str.c_str());
 			sscanf_s(AllInOne[i].date_str.c_str(), "%d/%d/%d", &AllInOne[i].day, &AllInOne[i].month, &AllInOne[i].year);
 		}
 		if (n == 1) // Sortira za odredjenog kupca
@@ -126,15 +126,20 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			std::cout << "Unesite tacan naziv kupca:";
 			std::cin >> wanted;
 			std::vector<Final_Product> arr;
-			arr.reserve(50);
+			arr.reserve(300);
 			for (i = 0; i < (int)AllInOne.size(); ++i) // Filtrira niz po zadanom kupcu
 			{
 				if ((wanted).compare(AllInOne[i].customer_str) == 0)
 					arr.push_back(Final_Product(AllInOne[i].name_str, AllInOne[i].customer_str, AllInOne[i].d_amount, AllInOne[i].d_price, AllInOne[i].d_total, AllInOne[i].day, AllInOne[i].month, AllInOne[i].year));
 			}
+			if (((int)arr.size()) == 0)
+			{
+				std::cout << "Trazeni kupac ne postoji u bazi podataka. Provjerite tacan naziv kupca." << std::endl;
+				return;
+			}
 			std::vector<Final_Product> to_print; // Konacni niz
-			to_print.reserve(50);
-			to_print.push_back(Final_Product(arr[0].name, arr[0].customer, arr[0].amount, arr[0].price, arr[0].total, arr[0].dd, arr[0].yy, arr[0].mm));
+			to_print.reserve(300);
+			to_print.push_back(Final_Product(arr[0].name, arr[0].customer, arr[0].amount, arr[0].price, arr[0].total, arr[0].dd, arr[0].mm, arr[0].yy));
 			int k, j, p,sum=0;
 			for (k = 1; k < (int)arr.size(); ++k) // Formiranje konacnog niza
 			{
@@ -176,9 +181,14 @@ void ShowData(int n) // Funkcija za prikaz podataka
 				if (AllInOne[i].month == wanted)
 					arr.push_back(Final_Product(AllInOne[i].name_str, AllInOne[i].customer_str, AllInOne[i].d_amount, AllInOne[i].d_price, AllInOne[i].d_total, AllInOne[i].day, AllInOne[i].month, AllInOne[i].year));
 			}
+			if (((int)arr.size()) == 0)
+			{
+				std::cout << "U trazenom mjesecu nije bilo prometa ili ste napravili nepravilan unos."<<std::endl;
+				return;
+			}
 			std::vector<Final_Product> to_print; // Konacni niz
 			to_print.reserve(50);
-			to_print.push_back(Final_Product(arr[0].name, arr[0].customer, arr[0].amount, arr[0].price, arr[0].total, arr[0].dd, arr[0].yy, arr[0].mm));
+			to_print.push_back(Final_Product(arr[0].name, arr[0].customer, arr[0].amount, arr[0].price, arr[0].total, arr[0].dd, arr[0].mm, arr[0].yy));
 			int k, j, p, sum = 0;
 			for (k = 1; k < (int)arr.size(); ++k) // Formiranje konacnog niza
 			{
@@ -206,12 +216,12 @@ void ShowData(int n) // Funkcija za prikaz podataka
 				std::cout << to_print[i].name << std::setw(10) << to_print[i].amount << std::setw(10) << to_print[i].price << std::setw(10) << (to_print[i].total*PDV) << std::setw(10) <<to_print[i].customer<<std::setw(10)<< to_print[i].dd << "." << to_print[i].mm << "." << to_print[i].yy << "." << std::endl;
 			}
 			std::cout << std::endl;
-			std::cout << "U mjesecu " << wanted << " je ukupno potrosen sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;
+			std::cout << "U " << wanted << ". mjesecu je ukupno potrosen sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;
 		}
 		if (n == 3) // Sortiranje za odredjeni proizvod
 		{
 			std::string wanted;
-			std::cout << "Unesite tacan naziv proizvoda:";
+			std::cout << "Unesite tacan naziv proizvoda (Napomena: Razmaci u nazivu trebaju biti popunjeni sa '_' !): ";
 			std::cin >> wanted;
 			std::vector<Final_Product> arr;
 			arr.reserve(50);
@@ -220,9 +230,14 @@ void ShowData(int n) // Funkcija za prikaz podataka
 				if ((wanted).compare(AllInOne[i].name_str) == 0)
 					arr.push_back(Final_Product(AllInOne[i].name_str, AllInOne[i].customer_str, AllInOne[i].d_amount, AllInOne[i].d_price, AllInOne[i].d_total, AllInOne[i].day, AllInOne[i].month, AllInOne[i].year));
 			}
+			if (((int)arr.size()) == 0)
+			{
+				std::cout << "Trazeni proizvod ne postoji u bazi podataka. Provjerite da li ste unijeli tacan naziv." << std::endl;
+				return;
+			}
 			std::vector<Final_Product> to_print; // Konacni niz
-			to_print.reserve(50);
-			to_print.push_back(Final_Product(arr[0].name, arr[0].customer, arr[0].amount, arr[0].price, arr[0].total, arr[0].dd, arr[0].yy, arr[0].mm));
+			to_print.reserve(300);
+			to_print.push_back(Final_Product(arr[0].name, arr[0].customer, arr[0].amount, arr[0].price, arr[0].total, arr[0].dd, arr[0].mm, arr[0].yy));
 			int k, j, p, sum = 0;
 			for (k = 1; k < (int)arr.size(); ++k) // Formiranje konacnog niza
 			{
@@ -242,12 +257,12 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			std::cout << std::endl;
 			std::cout << "=================================================================" << std::endl;
 			std::cout << "       Prikaz podataka za proizvod: " << wanted << std::endl << std::endl;
-			std::cout << "Kupac" << std::setw(10) << "Kolicina" << std::setw(10) << "Cijena" << std::setw(10) << "Ukupno" << std::setw(10) << "Datum" << std::endl;
+			std::cout << "Kupac" << std::setw(10) << "Kolicina" << std::setw(10) << "Cijena" << std::setw(10) << "Ukupno"  << std::endl;
 			std::cout << "=================================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) // Ispis i sumiranje
 			{
 				sum += to_print[i].total;
-				std::cout << to_print[i].customer << std::setw(10) << to_print[i].amount << std::setw(10) << to_print[i].price << std::setw(10) << (to_print[i].total*PDV) << std::setw(10) << to_print[i].dd << "." << to_print[i].mm << "." << to_print[i].yy << "." << std::endl;
+				std::cout << to_print[i].customer << std::setw(10) << to_print[i].amount << std::setw(10) << to_print[i].price << std::setw(10) << to_print[i].total << std::endl;
 			}
 			std::cout << std::endl;
 			std::cout << "Na proizvod " << wanted << " je ukupno potrosen sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;
