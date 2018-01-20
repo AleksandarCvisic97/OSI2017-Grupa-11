@@ -20,27 +20,34 @@ void Analyst::print_code(std::ostream &stream) const
 void Analyst::read_bills()
 {
 	stringvec str;
-	read_directory(".", str);
+	read_directory("Bills.", str);
 	int n = str.size(); // broj racuna
 	std::ifstream file;
 
 	for (std::string temp : str)
 	{
-		file.open(temp);
-		if (file.is_open())
+		
+		if (temp.find(".txt") != std::string::npos || temp.find(".csv") != std::string::npos) // Provjera da li je .txt ili .csv
 		{
-			std::cout << temp << " ";
-			int format = check_format(file);
-			if (check_bill(file, format) == true) // Ako je racun validan
-			{									  // TODO: Prebaciti fajl u folder sa validnim racunima (Amir)
-				read_bill(file, format);
-			}
-			else								  // Ako racun nije validan
-			{									  // TODO: Prebaciti fajl u folder sa nevalidnim racunima (Amir)
 
+			std::string localTemp = ".\\Bills\\";
+			localTemp.append(temp);
+			file.open(localTemp);
+			if (file.is_open())
+			{
+				int format = check_format(file);
+				if (check_bill(file, format) == true) // Ako je racun validan
+				{									  // TODO: Prebaciti fajl u folder sa validnim racunima (Amir)
+					read_bill(file, format);
+				}
+				else								  // Ako racun nije validan
+				{									  // TODO: Prebaciti fajl u folder sa nevalidnim racunima (Amir)
+					std::cout << "Nije validan racun!";
+				}
+				file.close();
 			}
-			file.close();
 		}
+		
 	}
 }
 
