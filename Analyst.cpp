@@ -20,17 +20,34 @@ void Analyst::print_code(std::ostream &stream) const
 void Analyst::read_bills()
 {
 	stringvec str;
-
-	read_directory(".", str);
-
+	read_directory("Bills.", str);
 	int n = str.size(); // broj racuna
+	std::ifstream file;
 
-	Bill *b = new Bill[n]; // niz racuna
-	int i = 0;
-	for (std::string temp : str) {
-		Bill localTemp(temp);
-		b[i] = localTemp;
-		i++;
+	for (std::string temp : str)
+	{
+		
+		if (temp.find(".txt") != std::string::npos || temp.find(".csv") != std::string::npos) // Provjera da li je .txt ili .csv
+		{
+
+			std::string localTemp = ".\\Bills\\";
+			localTemp.append(temp);
+			file.open(localTemp);
+			if (file.is_open())
+			{
+				int format = check_format(file);
+				if (check_bill(file, format) == true) // Ako je racun validan
+				{									  // TODO: Prebaciti fajl u folder sa validnim racunima (Amir)
+					read_bill(file, format);
+				}
+				else								  // Ako racun nije validan
+				{									  // TODO: Prebaciti fajl u folder sa nevalidnim racunima (Amir)
+					std::cout << "Nije validan racun!";
+				}
+				file.close();
+			}
+		}
+		
 	}
 }
 
@@ -235,6 +252,8 @@ void ShowData(int n) // Funkcija za prikaz podataka
 
 int Analyst::AnalystMenuOptions() // Meni za analititcara
 {
+
+	read_bills();
 	// Implementirati funkcije za otvaranje racuna
 	
 	// Implementirati funkcije sa ocitavanje podataka sa racuna i skladistenje

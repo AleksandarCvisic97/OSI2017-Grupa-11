@@ -15,8 +15,8 @@ public:
 	void write();
 	virtual int get_code() const = 0;
 	void LogIn();
+	void Deactivate();
 	void PlaceRequest();
 	void changeStatus();
-	void Deactivate();
 	int registername(std::string new_username);
 };

@@ -2,6 +2,7 @@
 #include "Analyst.h"
 #include "Menu.h"
 #include <iostream>
+#include <vector>
 
 
 void Admin::write_code(std::ofstream &stream) const
@@ -50,6 +51,8 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 						ad.changeStatus();
 						ad.write();
 					}
+					else
+						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
 				}
 				else
 				{
@@ -59,6 +62,8 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 						an.changeStatus();
 						an.write();
 					}
+					else
+						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
 				}
 			}
 		}
@@ -119,58 +124,49 @@ void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administrato
 
 void Admin::DeleteAccount() // Funkcija za deaktivaciju naloga od strane administratora
 {
-	struct temp
+	struct temp // Pomocna struktura
 	{
-		std::string ime, prezime, krime, pas;
+		std::string name,surname,username,pass;
 		int stat, kod;
+		temp(std::string a="",std::string b="",std::string c="",std::string d="",int e=0,int f=0) : name(a),surname(b),username(c),pass(d),stat(e),kod(f) {}
 	};
-	int n = 0, j = 0, c = 10;
-	struct temp *niz, korisnik;
-	niz = new struct temp[c];
+	int n=0, j = 0;
+	std::vector<temp> arr; // Pomocni niz
+	arr.reserve(50);
+	temp user;
 	std::string korIme;
 	std::cout << "Unesite korisnicko ime naloga koji zelite deaktivirati: " << std::endl;
-	std::cin >> korIme;
+	std::cin >> korIme; // Trazeni nalog za deaktivaciju
 	std::fstream users;
 	users.open("Users.txt", std::ios::in);
 	if (users.is_open())
 	{
-		while (users >> korisnik.ime >> korisnik.prezime >> korisnik.krime >> korisnik.pas >> korisnik.stat >> korisnik.kod)
+		while (users >> user.name >> user.surname >> user.username >> user.pass >> user.stat >> user.kod)
 		{
-
-			if (n == c)
-				niz = new struct temp[c *= 2];
-			if (((korisnik.krime).compare(korIme) == 0) && (korisnik.krime.compare("sca")))
+			if (((user.username).compare(korIme) == 0) && (user.username.compare("sca"))) // Ako je pronadjen nalog mijenja se status iz aktivnog u neaktivni
 			{
-				korisnik.stat = 0;
+				user.stat = 0;
 				j = 1;
 			}
-			niz[n++] = korisnik;
+			arr.push_back(temp(user.name, user.surname, user.username, user.pass, user.stat, user.kod));
 		}
 		users.close();
 	}
 	else
 		std::cout << "Greska pri otvaranju datoteke 'Users.txt'" << std::endl;
-	
 	if (j == 0)
 		std::cout << "Deaktiviranje naloga nije uspjelo, jer ne postoji korisnik sa korisnickim imenom '" << korIme << "'" << std::endl;
-	
 	else
 	{
-		
 		users.open("Users.txt", std::ios::out);
-
-		if (users.is_open())
+		if (users.is_open()) // Upisivasnje nazad u fajl sa deaktiviranim nalogom
 		{
-			for (j = 0; j < n; j++)
-				users << niz[j].ime << " " << niz[j].prezime << " " << niz[j].krime << " " << niz[j].pas << " " << niz[j].stat << " " << niz[j].kod << std::endl;
+			for (j = 0; j < (int)arr.size(); j++)
+				users << arr[j].name << " " << arr[j].surname << " " << arr[j].username << " " << arr[j].pass << " " << arr[j].stat << " " << arr[j].kod << std::endl;
 			users.close();
 		}
 		std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
-
 	}
-
-
-	delete[] niz;
 }
 
 int Admin::AdminMenuOptions() // Meni za administratora
