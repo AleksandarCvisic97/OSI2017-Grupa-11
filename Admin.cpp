@@ -25,15 +25,15 @@ int Admin::get_code() const
 void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 {
 	int c;
-	std::string ime, prezime, krime, pas;
-	int stat, kod;
+	std::string name, surname, username, pin;
+	int status, code;
 	std::fstream requests;
 	requests.open("Requests.txt", std::ios::in);
 	if (requests.is_open())
 	{
-		while (requests >> ime >> prezime >> krime >> pas >> stat >> kod)
+		while (requests >> name >> surname >> username >> pin >> status >> code)
 		{
-			std::cout << ime << " " << prezime << " " << krime << " " << pas << " " << stat << " " << kod << " " << std::endl;
+			std::cout << name << " " << surname << " " << username << " " << pin << " " << status << " " << code << " " << std::endl;
 			do
 			{
 				std::cout << "Odobri zahtjev: DA - pritisni 1, NE - pritisni 0" << std::endl;
@@ -43,10 +43,10 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 			} while (c < 0 || c>1);
 			if (c)
 			{
-				if (!kod)
+				if (!code)
 				{
-					Admin ad(ime, prezime, krime, pas, stat);
-					if (registername(krime))
+					Admin ad(name, surname, username, pin, status);
+					if (registername(username))
 					{
 						ad.changeStatus();
 						ad.write();
@@ -56,8 +56,8 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 				}
 				else
 				{
-					Analyst an(ime, prezime, krime, pas, stat);
-					if (registername(krime))
+					Analyst an(name, surname, username, pin, status);
+					if (registername(username))
 					{
 						an.changeStatus();
 						an.write();
@@ -78,46 +78,46 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 
 void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administratora
 {
-	std::string ime, prezime, krime, pas;
-	int stat, kod;
+	std::string name, surname, username, pin;
+	int status, code;
 
 	std::cout << "Unesite podatke o korisniku " << std::endl;
-	std::cout << " Ime: "; std::cin >> ime;
-	std::cout << " Prezime: "; std::cin >> prezime;
+	std::cout << " Ime: "; std::cin >> name;
+	std::cout << " Prezime: "; std::cin >> surname;
 	do
 	{
 		std::cout << " Korisnicko ime: ";
-		std::cin >> krime;
+		std::cin >> username;
 
-		if (!registername(krime))
+		if (!registername(username))
 		{
 			std::cout << "Korisnicko ime je zauzeto! Pokusajte ponovo." << std::endl;
 		}
-	} while (!registername(krime));
+	} while (!registername(username));
 	
-	std::cout << " PIN(4 cifre): "; std::cin >> pas;
+	std::cout << " PIN(4 cifre): "; std::cin >> pin;
 	
 	do
 	{
 		std::cout << " Dodaj kao Administratora (pritisni 0) ili kao Analiticara (pritisni 1): ";
-		std::cin >> kod;
+		std::cin >> code;
 
-		if (kod < 0 || kod > 1)
+		if (code < 0 || code > 1)
 		{
 			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
 		}
-	} while (kod < 0 || kod>1);
+	} while (code < 0 || code>1);
 
-	stat = 1;
+	status = 1;
 
-	if (kod == 0)
+	if (code == 0)
 	{
-		Admin ad(ime, prezime, krime, pas, stat);
+		Admin ad(name, surname, username, pin, status);
 		ad.write();
 	}
 	else
 	{
-		Analyst an(ime, prezime, krime, pas, stat);
+		Analyst an(name, surname, username, pin, status);
 		an.write();
 	}
 }
@@ -127,42 +127,42 @@ void Admin::DeleteAccount() // Funkcija za deaktivaciju naloga od strane adminis
 	struct temp // Pomocna struktura
 	{
 		std::string name,surname,username,pass;
-		int stat, kod;
-		temp(std::string a="",std::string b="",std::string c="",std::string d="",int e=0,int f=0) : name(a),surname(b),username(c),pass(d),stat(e),kod(f) {}
+		int status, code;
+		temp(std::string a="",std::string b="",std::string c="",std::string d="",int e=0,int f=0) : name(a),surname(b),username(c),pass(d),status(e),code(f) {}
 	};
 	int n=0, j = 0;
 	std::vector<temp> arr; // Pomocni niz
 	arr.reserve(50);
 	temp user;
-	std::string korIme;
+	std::string uname;
 	std::cout << "Unesite korisnicko ime naloga koji zelite deaktivirati: " << std::endl;
-	std::cin >> korIme; // Trazeni nalog za deaktivaciju
+	std::cin >> uname; // Trazeni nalog za deaktivaciju
 	std::fstream users;
 	users.open("Users.txt", std::ios::in);
 	if (users.is_open())
 	{
-		while (users >> user.name >> user.surname >> user.username >> user.pass >> user.stat >> user.kod)
+		while (users >> user.name >> user.surname >> user.username >> user.pass >> user.status >> user.code)
 		{
-			if (((user.username).compare(korIme) == 0) && (user.username.compare("sca"))) // Ako je pronadjen nalog mijenja se status iz aktivnog u neaktivni
+			if (((user.username).compare(uname) == 0) && (user.username.compare("sca"))) // Ako je pronadjen nalog mijenja se status iz aktivnog u neaktivni
 			{
-				user.stat = 0;
+				user.status = 0;
 				j = 1;
 			}
-			arr.push_back(temp(user.name, user.surname, user.username, user.pass, user.stat, user.kod));
+			arr.push_back(temp(user.name, user.surname, user.username, user.pass, user.status, user.code));
 		}
 		users.close();
 	}
 	else
 		std::cout << "Greska pri otvaranju datoteke 'Users.txt'" << std::endl;
 	if (j == 0)
-		std::cout << "Deaktiviranje naloga nije uspjelo, jer ne postoji korisnik sa korisnickim imenom '" << korIme << "'" << std::endl;
+		std::cout << "Deaktiviranje naloga nije uspjelo, jer ne postoji korisnik sa korisnickim imenom '" << uname << "'" << std::endl;
 	else
 	{
 		users.open("Users.txt", std::ios::out);
 		if (users.is_open()) // Upisivasnje nazad u fajl sa deaktiviranim nalogom
 		{
 			for (j = 0; j < (int)arr.size(); j++)
-				users << arr[j].name << " " << arr[j].surname << " " << arr[j].username << " " << arr[j].pass << " " << arr[j].stat << " " << arr[j].kod << std::endl;
+				users << arr[j].name << " " << arr[j].surname << " " << arr[j].username << " " << arr[j].pass << " " << arr[j].status << " " << arr[j].code << std::endl;
 			users.close();
 		}
 		std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
