@@ -49,7 +49,7 @@ void Analyst::read_bills()
 					file.seekg(0, std::ios::beg);
 					read_bill(file, format);
 					file.close();
-					std::string newPath = ".\\Validni\\"; // Dodavanje relativne putanje
+					std::string newPath = ".\\Valide\\"; // Dodavanje relativne putanje
 					newPath.append(temp);
 					move_bill(localTemp, newPath);
 				}
@@ -167,14 +167,14 @@ void ShowData(int n) // Funkcija za prikaz podataka
 					to_print.push_back(Final_Product(arr[k].name, arr[k].customer, arr[k].amount, arr[k].price, arr[k].total, arr[k].dd, arr[k].mm, arr[k].yy));
 			}
 			std::cout << std::endl;
-			std::cout << "==========================================================" << std::endl;
+			std::cout << "================================================" << std::endl;
 			std::cout << "       Prikaz podataka za kupca: " << wanted << std::endl << std::endl;
-			std::cout << "Naziv" << std::setw(10) << "Kolicina" << std::setw(10) << "Cijena" << std::setw(10) << "Ukupno" << std::endl;
-			std::cout << "==========================================================" << std::endl;
+			std::cout << std::setw(15) << std::left << "Naziv" << std::setw(12) << "Kolicina" << std::setw(12) << "Cijena" << std::setw(12) << "Ukupno" << std::setw(12) << std::endl;
+			std::cout << "================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) 
 			{
 				sum += to_print[i].total;
-				std::cout << to_print[i].name << std::setw(10) << to_print[i].amount << std::setw(10) << to_print[i].price << std::setw(10) << (to_print[i].total*PDV) << std::endl;
+				std::cout << std::setw(15) << std::left << to_print[i].name << std::setw(12) << to_print[i].amount << std::setw(12) << to_print[i].price << std::setw(12) << to_print[i].total << std::endl;
 			}
 			std::cout << std::endl;
 			std::cout << "Kupac " << wanted << " je ukupno potrosio sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;
@@ -216,14 +216,14 @@ void ShowData(int n) // Funkcija za prikaz podataka
 					to_print.push_back(Final_Product(arr[k].name, arr[k].customer, arr[k].amount, arr[k].price, arr[k].total, arr[k].dd, arr[k].mm, arr[k].yy));
 			}
 			std::cout << std::endl;
-			std::cout << "====================================================================" << std::endl;
+			std::cout << "==========================================================" << std::endl;
 			std::cout << "       Prikaz podataka za mjesec: "; Month_print(wanted); std::cout << std::endl << std::endl;
-			std::cout << "Naziv" << std::setw(10) << "Kolicina" << std::setw(10) << "Cijena" << std::setw(10) << "Ukupno" << std::setw(10)<<"Kupac" << std::endl;
-			std::cout << "====================================================================" << std::endl;
+			std::cout << std::setw(15) << std::left << "Naziv" << std::setw(12) << "Kolicina" << std::setw(12) << "Cijena" << std::setw(12) << "Ukupno" << std::setw(12) << "Kupac" << std::endl;
+			std::cout << "==========================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) // Ispis i sumiranje troskova
 			{
 				sum += to_print[i].total;
-				std::cout << to_print[i].name << std::setw(10) << to_print[i].amount << std::setw(10) << to_print[i].price << std::setw(10) << (to_print[i].total*PDV) << std::setw(10) <<to_print[i].customer<< std::endl;
+				std::cout << std::setw(15) << std::left << to_print[i].name << std::setw(12) << to_print[i].amount << std::setw(12) << to_print[i].price << std::setw(12) << to_print[i].total*PDV <<std::setw(12)<<to_print[i].customer<<std::endl;
 			}
 			std::cout << std::endl;
 			std::cout << "U " << wanted << ". mjesecu je ukupno potrosen sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;
@@ -265,14 +265,14 @@ void ShowData(int n) // Funkcija za prikaz podataka
 					to_print.push_back(Final_Product(arr[k].name, arr[k].customer, arr[k].amount, arr[k].price, arr[k].total, arr[k].dd, arr[k].mm, arr[k].yy));
 			}
 			std::cout << std::endl;
-			std::cout << "=================================================================" << std::endl;
+			std::cout << "================================================" << std::endl;
 			std::cout << "       Prikaz podataka za proizvod: " << wanted << std::endl << std::endl;
-			std::cout << "Kupac" << std::setw(10) << "Kolicina" << std::setw(10) << "Cijena" << std::setw(10) << "Ukupno"  << std::endl;
-			std::cout << "=================================================================" << std::endl;
+			std::cout << std::setw(15) << std::left << "Kupac" << std::setw(12) << "Kolicina" << std::setw(12) << "Cijena" << std::setw(12) << "Ukupno" << std::endl;
+			std::cout << "================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) // Ispis i sumiranje
 			{
 				sum += to_print[i].total;
-				std::cout << to_print[i].customer << std::setw(10) << to_print[i].amount << std::setw(10) << to_print[i].price << std::setw(10) << to_print[i].total << std::endl;
+				std::cout << std::setw(15) << std::left << to_print[i].customer << std::setw(12)  << to_print[i].amount << std::setw(12)  << to_print[i].price << std::setw(12) << to_print[i].total << std::endl;
 			}
 			std::cout << std::endl;
 			std::cout << "Na proizvod " << wanted << " je ukupno potrosen sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;
@@ -282,13 +282,7 @@ void ShowData(int n) // Funkcija za prikaz podataka
 
 int Analyst::AnalystMenuOptions() // Meni za analititcara
 {
-
 	read_bills();
-	// Implementirati funkcije za otvaranje racuna
-	
-	// Implementirati funkcije sa ocitavanje podataka sa racuna i skladistenje
-
-
 	char c;
 	do
 	{
