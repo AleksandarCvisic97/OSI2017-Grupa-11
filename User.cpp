@@ -83,54 +83,6 @@ void User::LogIn() // Funkcija za prijavu na sistem
 	} while (p);
 }
 
-void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
-{   std::string name,surname,username,pin;
-	int code,p,k=1;
-	while (k)
-	{
-		std::cout << "Registruj se kao Administrator (unesi 1) ili Analiticar (unesi 2) ?" << std::endl;
-		std::cout << "Vas izbor: "; std::cin >> p;
-		if (p == 1)
-		{
-			code = 0;
-			k = 0;
-		}
-		else if (p == 2)
-		{
-			code = 1;
-			k = 0;
-		}
-		else
-			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
-	}
-    std::cout<<"Ime:";
-    std::cin>>name;
-    std::cout<<"Prezime:";
-    std::cin>>surname;
-    std::cout<<"Korisnicko ime:";
-    std::cin>>username;
-	k = 1;
-	while (k)
-	{
-		std::cout << "PIN (4 cifre!):";
-		std::cin >> pin;
-		if (pin.length() != 4)
-			std::cout << "Pin se mora sastojati od 4 cifre! Pokusaj ponovo." << std::endl;
-		else
-			k = 0;
-	}
-    int status=0; //nalog je samo smjesten u datoteku,neaktivan
-    std::ofstream file;
-    file.open ("Requests.txt",std::ios::app);
-    if(file.is_open())
-    {
-		file << name << " " << surname << " " << username << " " << pin << " " << status << " " << code << std::endl;
-        file.close();
-    }
-	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
-	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl << std::endl;
-}
-
 int User::registername(std::string new_username) // Funkcija za provjeru korisnickog imena
 {
 
@@ -160,10 +112,66 @@ int User::registername(std::string new_username) // Funkcija za provjeru korisni
 
 	}
 	else
-    {
+	{
 		std::cout << "Neuspjesno otvaranje datoteke 'Users.txt'!" << std::endl;
-	return 0;
+		return 0;
+	}
+}
+
+void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
+{   std::string name,surname,username,pin;
+	int code,p,k=1;
+	while (k)
+	{
+		std::cout << "Registruj se kao Administrator (unesi 1) ili Analiticar (unesi 2) ?" << std::endl;
+		std::cout << "Vas izbor: "; std::cin >> p;
+		if (p == 1)
+		{
+			code = 0;
+			k = 0;
+		}
+		else if (p == 2)
+		{
+			code = 1;
+			k = 0;
+		}
+		else
+			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+	}
+    std::cout<<"Ime:";
+    std::cin>>name;
+    std::cout<<"Prezime:";
+    std::cin>>surname;
+	k = 1;
+	while (k)
+	{
+		std::cout << "Korisnicko ime:";
+		std::cin >> username;
+		if (!registername(username))
+			std::cout << "Korisnicko ime je zauzeto! Pokusajte ponovo." << std::endl;
+		else
+			k = 0;
+	}
+	k = 1;
+	while (k)
+	{
+		std::cout << "PIN (4 cifre!):";
+		std::cin >> pin;
+		if (pin.length() != 4)
+			std::cout << "Pin se mora sastojati od 4 cifre! Pokusaj ponovo." << std::endl;
+		else
+			k = 0;
+	}
+    int status=0; //nalog je samo smjesten u datoteku,neaktivan
+    std::ofstream file;
+    file.open ("Requests.txt",std::ios::app);
+    if(file.is_open())
+    {
+		file << name << " " << surname << " " << username << " " << pin << " " << status << " " << code << std::endl;
+        file.close();
     }
+	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
+	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl << std::endl;
 }
 
 void User::changeStatus() // Funkcija za promjenu statusa naloga

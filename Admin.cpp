@@ -51,6 +51,8 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 						ad.changeStatus();
 						ad.write();
 					}
+					else
+						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
 				}
 				else
 				{
@@ -60,6 +62,8 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 						an.changeStatus();
 						an.write();
 					}
+					else
+						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
 				}
 			}
 		}
