@@ -13,3 +13,4 @@ void read_directory(const std::string&, stringvec&); //funkcija za citanje direk
 int check_format(std::ifstream& ); // Provjerava da li format racuna odgovara nekom od 5 zadanih
 void read_bill(std::ifstream& , int);
 std::string removeSpaces(std::string);
+std::string space2underscore(std::string text);

@@ -401,6 +401,7 @@ void read_bill(std::ifstream& bill, int format)
                 std::stringstream ss(line);
 
                 std::getline(ss,name,'-');            //naziv
+                name=space2underscore(name);
                 std::getline(ss,amountPom,'-');          //kolicina
                 amount=removeSpaces(amountPom);
                 std::getline(ss,pricePom,'-');             //cijena
@@ -472,6 +473,7 @@ void read_bill(std::ifstream& bill, int format)
                 std::stringstream ss(line);
 
                 std::getline(ss,name,'-');            //naziv
+                name=space2underscore(name);
                 std::getline(ss,amountPom,'-');          //kolicina
                 amount=removeSpaces(amountPom);
                 std::getline(ss,pricePom,'-');             //cijena
@@ -530,6 +532,7 @@ void read_bill(std::ifstream& bill, int format)
                 std::getline(bill,line);
                 std::stringstream ss(line);
                 std::getline(ss,name,'=');            //naziv
+                name=space2underscore(name);
 
                 for(int i=0; i<5; i++)
                 {
@@ -579,6 +582,7 @@ void read_bill(std::ifstream& bill, int format)
                 std::stringstream ss(line);
 
                 std::getline(ss,name,',');            //naziv
+                name=space2underscore(name);
                 std::getline(ss,amount,',');          //kolicina
                 std::getline(ss,price,',');             //cijena
                 std::getline(ss,total,'\n');        //ukupno
@@ -615,5 +619,16 @@ std::string removeSpaces(std::string input)
     return input;
 }
 
-
+std::string space2underscore(std::string text)
+{
+	for (int i = 0; i < text.length(); i++)
+	{
+		if (text[i] == ' ')
+		{
+			text[i] = '_';
+			return text;
+		}
+	}
+	return text;
+}
 
