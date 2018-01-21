@@ -223,7 +223,7 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			for (i = 0; i < (int)to_print.size(); ++i) // Ispis i sumiranje troskova
 			{
 				sum += to_print[i].total;
-				std::cout << std::setw(15) << std::left << to_print[i].name << std::setw(12) << to_print[i].amount << std::setw(12) << to_print[i].price << std::setw(12) << to_print[i].total*PDV <<std::setw(12)<<to_print[i].customer<<std::endl;
+				std::cout << std::setw(15) << std::left << to_print[i].name << std::setw(12) << to_print[i].amount << std::setw(12) << to_print[i].price << std::setw(12) << to_print[i].total <<std::setw(12)<<to_print[i].customer<<std::endl;
 			}
 			std::cout << std::endl;
 			std::cout << "U " << wanted << ". mjesecu je ukupno potrosen sljedeci iznos: " << (sum*PDV) << std::endl << std::endl;

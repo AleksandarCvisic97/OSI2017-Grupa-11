@@ -34,6 +34,10 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 		while (requests >> name >> surname >> username >> pin >> status >> code)
 		{
 			std::cout << name << " " << surname << " " << username << " " << pin << " " << status << " " << code << " " << std::endl;
+			if (code == 0)
+				std::cout << "(Administrator)" << std::endl;
+			else
+				std::cout << "(Analiticar)" << std::endl;
 			do
 			{
 				std::cout << "Odobri zahtjev: DA - pritisni 1, NE - pritisni 0" << std::endl;
@@ -50,6 +54,7 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 					{
 						ad.changeStatus();
 						ad.write();
+						std::cout << "Zahtjev je odobren." << std::endl;
 					}
 					else
 						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
@@ -61,6 +66,7 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 					{
 						an.changeStatus();
 						an.write();
+						std::cout << "Zahtjev je odobren." << std::endl;
 					}
 					else
 						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
