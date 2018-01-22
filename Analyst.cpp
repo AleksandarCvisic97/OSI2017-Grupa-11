@@ -6,7 +6,7 @@
 #include <string>
 #include <stdio.h>
 #include <iomanip>
-#include <windows.h>
+#include <Windows.h>
 
 void Analyst::write_code(std::ofstream &stream) const
 {
@@ -20,10 +20,15 @@ void Analyst::print_code(std::ostream &stream) const
 
 void move_bill(std::string oldpath, std::string newpath)
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (MoveFile(oldpath.c_str(), newpath.c_str()))
 		return;
 	else
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "GRESKA.";
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 }
 void Analyst::read_bills()
 {
@@ -95,6 +100,7 @@ void Month_print(int k)
 
 void ShowData(int n) // Funkcija za prikaz podataka
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::string name_temp, amount_temp, price_temp, total_temp, customer_temp, date_temp; // Pomocne promjenljive za prihvatanje podataka o proizvodu
 	struct Product //Pomocna struktura za formiranje proizvoda
 	{
@@ -144,7 +150,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			}
 			if (((int)arr.size()) == 0)
 			{
+				SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 				std::cout << "Trazeni kupac ne postoji u bazi podataka. Provjerite tacan naziv kupca." << std::endl;
+				SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 				return;
 			}
 			std::vector<Final_Product> to_print; // Konacni niz
@@ -168,7 +176,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			}
 			std::cout << std::endl;
 			std::cout << "================================================" << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 			std::cout << "       Prikaz podataka za kupca: " << wanted << std::endl << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << std::setw(15) << std::left << "Naziv" << std::setw(12) << "Kolicina" << std::setw(12) << "Cijena" << std::setw(12) << "Ukupno" << std::setw(12) << std::endl;
 			std::cout << "================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) 
@@ -193,7 +203,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			}
 			if (((int)arr.size()) == 0)
 			{
+				SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 				std::cout << "U trazenom mjesecu nije bilo prometa ili ste napravili nepravilan unos."<<std::endl;
+				SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 				return;
 			}
 			std::vector<Final_Product> to_print; // Konacni niz
@@ -217,7 +229,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			}
 			std::cout << std::endl;
 			std::cout << "==========================================================" << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 			std::cout << "       Prikaz podataka za mjesec: "; Month_print(wanted); std::cout << std::endl << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << std::setw(15) << std::left << "Naziv" << std::setw(12) << "Kolicina" << std::setw(12) << "Cijena" << std::setw(12) << "Ukupno" << std::setw(12) << "Kupac" << std::endl;
 			std::cout << "==========================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) // Ispis i sumiranje troskova
@@ -242,7 +256,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			}
 			if (((int)arr.size()) == 0)
 			{
+				SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 				std::cout << "Trazeni proizvod ne postoji u bazi podataka. Provjerite da li ste unijeli tacan naziv." << std::endl;
+				SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 				return;
 			}
 			std::vector<Final_Product> to_print; // Konacni niz
@@ -266,7 +282,9 @@ void ShowData(int n) // Funkcija za prikaz podataka
 			}
 			std::cout << std::endl;
 			std::cout << "================================================" << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 			std::cout << "       Prikaz podataka za proizvod: " << wanted << std::endl << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << std::setw(15) << std::left << "Kupac" << std::setw(12) << "Kolicina" << std::setw(12) << "Cijena" << std::setw(12) << "Ukupno" << std::endl;
 			std::cout << "================================================" << std::endl;
 			for (i = 0; i < (int)to_print.size(); ++i) // Ispis i sumiranje
@@ -282,6 +300,7 @@ void ShowData(int n) // Funkcija za prikaz podataka
 
 int Analyst::AnalystMenuOptions() // Meni za analititcara
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	read_bills();
 	char c;
 	do
@@ -294,7 +313,9 @@ int Analyst::AnalystMenuOptions() // Meni za analititcara
 		case '2': ShowData(2); break; // Poziva prikaz podataka za odredjeni mjesec
 		case '3': ShowData(3); break; // Poziva prikaz podataka za odredjeni proizvod
 		case '4': std::cout << "Dovidjenja!" << std::endl; return 0; break;
-		default: std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl; break;
+		default: SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
+				 std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl;
+				 SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN); break;
 		}
 	} while (true);
 }

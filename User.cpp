@@ -3,11 +3,13 @@
 #include "Analyst.h"
 #include "Menu.h"
 #include <iostream>
+#include <Windows.h>
 
 User::User(const std::string name, const std::string surname, const std::string username, const std::string pin, const int status) : name(name), surname(surname), username(username), pin(pin), status(status) {}
 
 void User::write() // Funkcija za upis u datoteku
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::ofstream users;
 	users.open("Users.txt", std::ios::app); //prava putanja: ...\programdata\Users.txt
 	if (users.is_open())
@@ -18,11 +20,16 @@ void User::write() // Funkcija za upis u datoteku
 		users.close();
 	}
 	else
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 }
 
 void User::LogIn() // Funkcija za prijavu na sistem
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::string LogName, LogPIN;
 	std::string name, surname, username, PIN;
 	int status, code, p;
@@ -62,30 +69,42 @@ void User::LogIn() // Funkcija za prijavu na sistem
 						}
 						else
 						{
+							SetConsoleTextAttribute(h, FOREGROUND_RED);
 							std::cout << "Vas nalog je deaktiviran! Prijava nije moguca." << std::endl << std::endl;
+							SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 							return;
 						}
 					}
 				}
 			}
 			users.close();
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Unijeli ste pogresno korisnicko ime ili pogresnu lozinku!" << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 			do
 			{
 				std::cout << "Ponovna prijava (1)" << std::endl << "Napusti program (0)" << std::endl << "Vas izbor: ";
 				std::cin >> p;
 				if (p > 1 || p < 0)
+				{
+					SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 					std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+					SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+				}
 			} while (p > 1 || p < 0);
 		}
 		else
+		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED);
 			std::cout << "Greska pri otvaranju datoteke: 'Users.txt'";
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+		}
 	} while (p);
 }
 
 int User::registername(std::string new_username) // Funkcija za provjeru korisnickog imena
 {
-
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::string username, name, surname, pin;
 	int confirmation, status, code;
 
@@ -113,13 +132,17 @@ int User::registername(std::string new_username) // Funkcija za provjeru korisni
 	}
 	else
 	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Neuspjesno otvaranje datoteke 'Users.txt'!" << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 		return 0;
 	}
 }
 
 void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
-{   std::string name,surname,username,pin;
+{   
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	std::string name,surname,username,pin;
 	int code,p,k=1;
 	while (k)
 	{
@@ -136,7 +159,11 @@ void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
 			k = 0;
 		}
 		else
+		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+		}
 	}
     std::cout<<"Ime:";
     std::cin>>name;
@@ -148,7 +175,11 @@ void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
 		std::cout << "Korisnicko ime:";
 		std::cin >> username;
 		if (!registername(username))
+		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Korisnicko ime je zauzeto! Pokusajte ponovo." << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+		}
 		else
 			k = 0;
 	}
@@ -158,7 +189,11 @@ void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
 		std::cout << "PIN (4 cifre!):";
 		std::cin >> pin;
 		if (pin.length() != 4)
+		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Pin se mora sastojati od 4 cifre! Pokusaj ponovo." << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+		}
 		else
 			k = 0;
 	}
@@ -170,7 +205,12 @@ void User::PlaceRequest() // Funkcija za smjestanje zahtjeva za registraciju
 		file << name << " " << surname << " " << username << " " << pin << " " << status << " " << code << std::endl;
         file.close();
     }
-	else std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
+	else
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
+		std::cout << "Neuspjesno otvaranje datoteke o korisnicima!" << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 	std::cout << "Vas zahtjev je poslan administratoru."<<std::endl<<"Nakon izvjesnog vremena pokusajte sa prijavom na sistem koja bi trebala biti uspjesna ukoliko je zahtjev odobren." << std::endl << std::endl;
 }
 
@@ -192,17 +232,18 @@ std::ostream & operator<<(std::ostream &stream, const User &u)
 
 void User::Deactivate() // Funkcija za deaktivaciju naloga
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	struct temp // Pomocna struktura
 	{
 		std::string name, surname, username, pass;
 		int stat, kod;
 		temp(std::string a = "", std::string b = "", std::string c = "", std::string d = "", int e = 0, int f = 0) : name(a), surname(b), username(c), pass(d), stat(e), kod(f) {}
 	};
-	int n = 0, j = 0,k=1;
+	int n = 0, j = 0, k = 1;
 	std::vector<temp> arr; // Pomocni niz
 	arr.reserve(50);
 	temp user; // Promjenljiva za prihvatanje podataka iz fajla
-	std::string korIme,pin;
+	std::string korIme, pin;
 	std::cout << "Vase korisnicko ime: " << std::endl;
 	std::cin >> korIme; // Trazeni nalog za deaktivaciju
 	while (k)
@@ -210,7 +251,11 @@ void User::Deactivate() // Funkcija za deaktivaciju naloga
 		std::cout << "Vasa lozinka:";
 		std::cin >> pin;
 		if (pin.length() != 4)
+		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Pin se mora sastojati od 4 cifre! Pokusaj ponovo." << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+		}
 		else
 			k = 0;
 	}
@@ -220,7 +265,7 @@ void User::Deactivate() // Funkcija za deaktivaciju naloga
 	{
 		while (users >> user.name >> user.surname >> user.username >> user.pass >> user.stat >> user.kod)
 		{
-			if (((user.username).compare(korIme) == 0) && ((user.username).compare("sca")!=0)&&((user.pass).compare(pin)==0)) // Ako je pronadjen nalog mijenja se status iz aktivnog u neaktivni
+			if (((user.username).compare(korIme) == 0) && ((user.username).compare("sca") != 0) && ((user.pass).compare(pin) == 0)) // Ako je pronadjen nalog mijenja se status iz aktivnog u neaktivni
 			{
 				user.stat = 0;
 				j = 1;
@@ -230,9 +275,17 @@ void User::Deactivate() // Funkcija za deaktivaciju naloga
 		users.close();
 	}
 	else
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Greska pri otvaranju datoteke 'Users.txt'" << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 	if (j == 0)
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Deaktiviranje naloga nije uspjelo, pogresno korisnicko ime ili lozinka! " << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 	else
 	{
 		users.open("Users.txt", std::ios::out);
@@ -242,6 +295,8 @@ void User::Deactivate() // Funkcija za deaktivaciju naloga
 				users << arr[j].name << " " << arr[j].surname << " " << arr[j].username << " " << arr[j].pass << " " << arr[j].stat << " " << arr[j].kod << std::endl;
 			users.close();
 		}
+		SetConsoleTextAttribute(h, FOREGROUND_GREEN);
 		std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 	}
 }

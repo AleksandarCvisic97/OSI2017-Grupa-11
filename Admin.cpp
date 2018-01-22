@@ -3,6 +3,7 @@
 #include "Menu.h"
 #include <iostream>
 #include <vector>
+#include <Windows.h>
 
 
 void Admin::write_code(std::ofstream &stream) const
@@ -24,6 +25,7 @@ int Admin::get_code() const
 
 void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	int c;
 	std::string name, surname, username, pin;
 	int status, code;
@@ -43,7 +45,11 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 				std::cout << "Odobri zahtjev: DA - pritisni 1, NE - pritisni 0" << std::endl;
 				std::cin >> c;
 				if (c < 0 || c>1)
+				{
+					SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 					std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+					SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+				}
 			} while (c < 0 || c>1);
 			if (c)
 			{
@@ -54,10 +60,16 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 					{
 						ad.changeStatus();
 						ad.write();
+						SetConsoleTextAttribute(h, FOREGROUND_GREEN);
 						std::cout << "Zahtjev je odobren." << std::endl;
+						SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 					}
 					else
+					{
+						SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
+						SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+					}
 				}
 				else
 				{
@@ -66,17 +78,27 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 					{
 						an.changeStatus();
 						an.write();
+						SetConsoleTextAttribute(h, FOREGROUND_GREEN);
 						std::cout << "Zahtjev je odobren." << std::endl;
+						SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 					}
 					else
+					{
+						SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 						std::cout << "Korisnicko ime je zauzeto, nije moguce odobriti zahtjev." << std::endl;
+						SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+					}
 				}
 			}
 		}
 		std::cout << "Nema vise zahtjeva za registraciju." << std::endl;
 	}
 	else
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Greska pri otvaranju datoteke 'Requests.txt'" << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 	requests.close();
 	requests.open("Requests.txt", std::ios::out);
 	requests.close();
@@ -84,6 +106,7 @@ void Admin::ApproveRegRequest() // Funkcija za odobravanje zahtjeva
 
 void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administratora
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::string name, surname, username, pin;
 	int status, code;
 
@@ -97,7 +120,9 @@ void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administrato
 
 		if (!registername(username))
 		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Korisnicko ime je zauzeto! Pokusajte ponovo." << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 		}
 	} while (!registername(username));
 	
@@ -110,7 +135,9 @@ void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administrato
 
 		if (code < 0 || code > 1)
 		{
+			SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
 			std::cout << "Nepostojeca opcija! Pokusajte ponovo." << std::endl;
+			SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 		}
 	} while (code < 0 || code>1);
 
@@ -130,6 +157,7 @@ void Admin::AddAccount() // Funkcija za dodavanje  naloga od strane administrato
 
 void Admin::DeleteAccount() // Funkcija za deaktivaciju naloga od strane administratora
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	struct temp // Pomocna struktura
 	{
 		std::string name,surname,username,pass;
@@ -159,9 +187,17 @@ void Admin::DeleteAccount() // Funkcija za deaktivaciju naloga od strane adminis
 		users.close();
 	}
 	else
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Greska pri otvaranju datoteke 'Users.txt'" << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 	if (j == 0)
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_RED);
 		std::cout << "Deaktiviranje naloga nije uspjelo, jer ne postoji korisnik sa korisnickim imenom '" << uname << "'" << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
+	}
 	else
 	{
 		users.open("Users.txt", std::ios::out);
@@ -171,12 +207,15 @@ void Admin::DeleteAccount() // Funkcija za deaktivaciju naloga od strane adminis
 				users << arr[j].name << " " << arr[j].surname << " " << arr[j].username << " " << arr[j].pass << " " << arr[j].status << " " << arr[j].code << std::endl;
 			users.close();
 		}
+		SetConsoleTextAttribute(h, FOREGROUND_GREEN);
 		std::cout << "Nalog je uspjesno deaktiviran." << std::endl;
+		SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN);
 	}
 }
 
 int Admin::AdminMenuOptions() // Meni za administratora
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	char c;
 	do
 	{
@@ -189,7 +228,9 @@ int Admin::AdminMenuOptions() // Meni za administratora
 		case '3': DeleteAccount(); break;
 		// Slucaj 4 za primjenu valute sistema nije jos spreman za koristenje
 		case '5': std::cout << "Dovidjenja!" << std::endl; return 0; break;
-		default: std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl; break;
+		default: SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN);
+			     std::cout << "Nepostojeca opcija! Pokusajte ponovo" << std::endl;
+				 SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN); break;
 		}
 	} while (true);
 }
